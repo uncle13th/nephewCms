@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+                <div class="panel-heading">修改密码</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -14,27 +14,25 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('password.request') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
                         {{ csrf_field() }}
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                        {{--<input type="hidden" name="token" value="{{ $token }}">--}}
+                        <div class="form-group{{ $errors->has('password_origin') ? ' has-error' : '' }}">
+                            <label for="password_origin" class="col-md-4 control-label">旧密码</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
+                                <input id="password_origin" type="password" class="form-control" name="password_origin" value="{{ $password_origin or old('password_origin') }}" required autofocus>
 
-                                @if ($errors->has('email'))
+                                @if ($errors->has('password_origin'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('password_origin') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                            <label for="password" class="col-md-4 control-label">新密码</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control" name="password" required>
@@ -48,7 +46,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                            <label for="password-confirm" class="col-md-4 control-label">确认密码</label>
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
 
@@ -63,7 +61,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Reset Password
+                                    确定
                                 </button>
                             </div>
                         </div>

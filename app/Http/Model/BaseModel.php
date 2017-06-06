@@ -16,12 +16,13 @@ class BaseModel extends Model {
 
     protected static $instances = [];
 
-    public static function  getInstance($type = 'default',$attributes = [])
+    public static function instance($type = 'default',$attributes = [])
     {
-        if (empty(static::$instances[$type])) {
-            static::$instances[$type] = new static($attributes);
+        $class = get_called_class();
+        if (empty(static::$instances[$class])) {
+            static::$instances[$class] = new static($attributes);
         }
-        return static::$instances[$type];
+        return static::$instances[$class];
     }
 
     function __construct(array $attributes = []) {

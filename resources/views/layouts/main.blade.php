@@ -26,6 +26,7 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  @yield('css')
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -34,21 +35,21 @@
   <!-- Main Header -->
   <header class="main-header">
     <!-- Logo -->
-    <a href="/" class="logo">
+    <a href="/home" class="logo">
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>En</b>Kay</span>
     </a>
 
-    <!-- Header Navbar -->
+    <!-- 头部导航栏 -->
     <nav class="navbar navbar-static-top" role="navigation">
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
 
         <ul class="nav navbar-nav">
-          <li class="active"><a href="/" target="_blank">前端网站 <span class="sr-only">(current)</span></a></li>
-          <!-- User Account Menu -->
+          <li class="active"><a href="/" target="_blank"><i class="fa fa-fw fa-laptop"></i>前端网站 <span class="sr-only">(current)</span></a></li>
+          <!-- 用户账号菜单 -->
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">我的账号 <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-user"></i>我的账号 <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="{{ url('/password/reset') }}">修改密码</a></li>
               <li class="divider"></li>
@@ -64,27 +65,35 @@
       </div>
     </nav>
   </header>
-  <!-- Left side column. contains the logo and sidebar -->
+  <!-- 左侧系统菜单 -->
   <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-      <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
-        {{--<li class="header">HEADER</li>--}}
-        <!-- Optionally, you can add icons to the links -->
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>系统管理</span>
+          <a href="#"><i class="fa fa-link"></i> <span>页面管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="/user"><i class="fa fa-circle-o"></i>用户管理</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>角色管理</a></li>
+            <li><a href="/home/index"><i class="fa fa-circle-o"></i>首页管理</a></li>
+            <li><a href="/home/product/type"><i class="fa fa-circle-o"></i>产品类型管理</a></li>
+            <li><a href="/home/product/list"><i class="fa fa-circle-o"></i>产品列表</a></li>
+            <li><a href="/home/aobut"><i class="fa fa-circle-o"></i>关于我们</a></li>
+            <li><a href="/home/connect"><i class="fa fa-circle-o"></i>联系我们</a></li>
           </ul>
         </li>
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+        <li class="treeview active">
+          <a href="#"><i class="fa fa-users"></i> <span>用户权限管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/home/user"><i class="fa fa-fw fa-user"></i>用户管理</a></li>
+            <li class="active"><a href="/home/role/list"><i class="fa fa-fw fa-paw"></i>角色管理</a></li>
+          </ul>
+        </li>
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>系统管理</span>
             <span class="pull-right-container">
@@ -92,36 +101,22 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="/user"><i class="fa fa-circle-o"></i>用户管理</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>角色管理</a></li>
+            <li><a href="/home/menu"><i class="fa fa-circle-o"></i>导航菜单管理</a></li>
+            <li><a href="/home/file"><i class="fa fa-circle-o"></i>文件上传管理</a></li>
+            <li><a href="/home/config"><i class="fa fa-circle-o"></i>配置管理</a></li>
           </ul>
         </li>
       </ul>
-      <!-- /.sidebar-menu -->
     </section>
-    <!-- /.sidebar -->
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Page Header
-        <small>Optional description</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-        <li class="active">Here</li>
-      </ol>
-    </section>
+    @yield('location')
 
     <!-- Main content -->
-    <section class="content">
-
-      <!-- Your Page Content Here -->
-      @yield('content')
-    </section>
+    @yield('content')
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

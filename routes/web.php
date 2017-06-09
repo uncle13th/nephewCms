@@ -42,6 +42,20 @@ Route::group(['middleware' => 'auth', 'prefix' => '/home/role'], function () {
     Route::delete('/', 'User\RoleController@delete');
 });
 
+/**
+ * 用户管理
+ */
+Route::group(['middleware' => 'auth', 'prefix' => '/home/user'], function () {
+    //用户列表
+    Route::get('/list', 'User\UserController@getList');
+    //用户信息
+    Route::get('/', 'User\UserController@show');
+    //保存用户信息（新增或修改）
+    Route::post('/', 'User\UserController@save');
+    //删除用户
+    Route::delete('/', 'User\UserController@delete');
+});
+
 /****************************************  前端网站路由  ****************************************/
 
 Route::get('/', function () {

@@ -17,6 +17,14 @@ class RoleModel extends BaseModel
     protected $guarded = [];
 
     /**
+     * 获取所有可用的角色
+     * @return array
+     */
+    public function getAllRoles(){
+        return $this->where('status', '!=' , -1)->get()->toArray();
+    }
+
+    /**
      * 获取角色列表
      * @return mixed
      */
@@ -69,7 +77,7 @@ class RoleModel extends BaseModel
     }
 
     /**
-     * 新增角色
+     * 更新角色
      * @param array $data 角色信息数组
      * @return bool|array
      */

@@ -90,7 +90,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/home/user"><i class="fa fa-fw fa-user"></i>用户管理</a></li>
+            <li><a href="/home/user/list"><i class="fa fa-fw fa-user"></i>用户管理</a></li>
             <li class="active"><a href="/home/role/list"><i class="fa fa-fw fa-paw"></i>角色管理</a></li>
           </ul>
         </li>

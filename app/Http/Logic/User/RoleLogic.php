@@ -19,6 +19,23 @@ class RoleLogic extends BaseLogic
     }
 
     /**
+     * 获取所有可用的角色
+     * @return array
+     */
+    public function getAllRoles(){
+        $model = RoleModel::instance();
+        $data = $model->getAllRoles();
+        if(!$data){
+            return array();
+        }
+        foreach($data as $item){
+            $roles[$item['id']] = $item;
+        }
+
+        return $roles;
+    }
+
+    /**
      * 获取角色列表
      * @return mixed
      */

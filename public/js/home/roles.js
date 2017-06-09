@@ -191,7 +191,6 @@ $(function(){
 
         var operation = $("#operation").val();
         if(operation == 'edit'){
-            console.log('edit')
             data.id = $("#roleId").val();
         }
 

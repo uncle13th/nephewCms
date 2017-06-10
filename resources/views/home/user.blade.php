@@ -1,6 +1,7 @@
 @extends('layouts.main')
 @section('css')
     {{--<link rel="stylesheet" href="{{asset('plugins/iCheck/all.css')}}">--}}
+    <link rel="stylesheet" href="{{asset('/plugins/fancybox/jquery.fancybox.css')}}" type="text/css" media="screen" />
 @endsection
 
 @section('location')
@@ -99,7 +100,7 @@
         </div>
         {{ csrf_field() }}
         <!-- 模态框 新增用户/修改橘色 -->
-        <div id="infoModal" class="modal fade" tabindex="-1" role="dialog">
+        <div id="infoModal" class="modal " tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="box box-info">
                     <div class="box-header with-border">
@@ -124,6 +125,17 @@
                                 <label for="nickname" class="col-sm-2 control-label">昵称</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="nickname" placeholder="昵称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="img" class="col-sm-2 control-label">头像</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <input id="img" class="img_src form-control" name="img" type="text" value="">
+                                        <span class="input-group-btn">
+                                            <a href="/filemanager/dialog.php?type=1&field_id=img" class="btn btn-warning iframe-btn">选择图片</a>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -220,5 +232,7 @@
 @endsection
 
 @section('js')
+<script src="{{asset('/plugins/fancybox/jquery.fancybox.js')}}"></script>
 <script src="{{asset('/js/home/users.js')}}"></script>
+
 @endsection

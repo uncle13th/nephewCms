@@ -78,6 +78,11 @@ class UserLogic extends BaseLogic
             'status' => intval($params['status']),
         );
 
+        //头像
+        if(isset($params['img'])){
+            $data['img'] = trim($params['img']);
+        }
+
         $model = UserModel::instance();
         //有上传id
         if(isset($params['id'])){

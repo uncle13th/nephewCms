@@ -56,6 +56,16 @@ Route::group(['middleware' => 'auth', 'prefix' => '/home/user'], function () {
     Route::delete('/', 'User\UserController@delete');
 });
 
+/**
+ * 系统配置管理
+ */
+Route::group(['middleware' => 'auth', 'prefix' => '/home'], function () {
+    //文件管理
+    Route::get('file', function(){
+        return view('home.file');
+    });
+});
+
 /****************************************  前端网站路由  ****************************************/
 
 Route::get('/', function () {

@@ -27,6 +27,23 @@ $(function(){
             var data = $.parseJSON(jsonData);
             showDeleteModal(data);
         });
+
+        //选择图片
+        $('.iframe-btn').fancybox({
+            'type'		: 'iframe',
+            'autoSize'  : false,
+            beforeLoad : function() {
+                this.width  = 900;
+                this.height = 600;
+            },
+            afterClose: function() {
+                $('.img_src').each(function() {
+                    $('#'+$(this).attr('id').replace('source', 'image')).attr("src", $(this).val());
+                });
+                //因为图片选择器关闭时会把模态框一并关闭，所以这里再次打开
+                $('#infoModal').modal({'backdrop' : false});
+            }
+        });
     }
 
     //初始化查询条件
@@ -58,9 +75,11 @@ $(function(){
 
     //清空模态框上所有数据
     function clearModalData(){
+        $("#username").attr("disabled", false);
         $("#idArea").css('display', 'none');
         $("#username").val('');
         $("#nickname").val('');
+        $("#img").val('');
         $("#role").val(0);
         $('input:radio[name="status"]').eq(0).prop('checked', "checked");
 
@@ -84,6 +103,7 @@ $(function(){
         $("#username").val(data.username);
         $("#username").attr("disabled",true);
         $("#nickname").val(data.nickname);
+        $("#img").val(data.img);
         $("#role").val(data.role_id);
         $(":password").parent().parent().css('display', 'none');
         if(data.status == 1){
@@ -132,6 +152,8 @@ $(function(){
             }
         }
 
+        var img = $.trim($("#img").val());
+
         setReadOnly();
 
         var token = $("[name='_token']").val();
@@ -140,6 +162,7 @@ $(function(){
         var data = {
             _token : token,
             nickname: nickname,
+            img:img,
             role_id: role,
             status: status
         }

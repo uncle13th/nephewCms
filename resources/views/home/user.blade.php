@@ -99,7 +99,7 @@
             </div>
         </div>
         {{ csrf_field() }}
-        <!-- 模态框 新增用户/修改橘色 -->
+        <!-- 模态框 新增用户/修改用户 -->
         <div id="infoModal" class="modal " tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="box box-info">

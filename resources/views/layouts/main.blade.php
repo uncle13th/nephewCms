@@ -101,7 +101,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/home/menu"><i class="fa fa-circle-o"></i>导航菜单管理</a></li>
+            <li><a href="/home/front_menu"><i class="fa fa-circle-o"></i>导航菜单管理</a></li>
             <li><a href="/home/file"><i class="fa fa-circle-o"></i>文件上传管理</a></li>
             <li><a href="/home/config"><i class="fa fa-circle-o"></i>配置管理</a></li>
           </ul>

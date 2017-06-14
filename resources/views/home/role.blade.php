@@ -92,7 +92,7 @@
             </div>
         </div>
         {{ csrf_field() }}
-        <!-- 模态框 新增角色/修改橘色 -->
+        <!-- 模态框 新增角色/修改角色 -->
         <div id="roleInfoModal" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="box box-info">

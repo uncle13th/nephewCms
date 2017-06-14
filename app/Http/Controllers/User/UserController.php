@@ -5,7 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Logic\User\RoleLogic;
 use Illuminate\Http\Request;
-use App\Http\Logic\User\USerLogic;
+use App\Http\Logic\User\UserLogic;
 
 class UserController extends Controller
 {

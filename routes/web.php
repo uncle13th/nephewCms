@@ -64,6 +64,19 @@ Route::group(['middleware' => 'auth', 'prefix' => '/home'], function () {
     Route::get('file', function(){
         return view('home.file');
     });
+    //导航菜单管理
+//    Route::get('menu', function(){
+//        return view('home.menu');
+//    });
+
+    //展示导航菜单列表
+    Route::get('front_menu', 'Front\FrontMenuController@show');
+    //保存导航菜单信息
+    Route::post('front_menu', 'Front\FrontMenuController@save');
+    //删除导航菜单
+    Route::delete('front_menu', 'Front\FrontMenuController@delete');
+    //修改导航菜单信息（排序）
+    Route::put('front_menu', 'Front\FrontMenuController@sort');
 });
 
 /****************************************  前端网站路由  ****************************************/

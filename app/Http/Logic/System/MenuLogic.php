@@ -3,6 +3,7 @@ namespace App\Http\Logic\System;
 
 use App\Http\Logic\BaseLogic;
 use App\Http\Model\system\MenuModel;
+use App\Http\Model\Front\FrontMenuModel;
 use Illuminate\Support\Facades\Auth;
 
 class MenuLogic extends BaseLogic

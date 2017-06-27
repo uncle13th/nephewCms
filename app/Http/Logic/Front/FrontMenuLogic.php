@@ -32,10 +32,10 @@ class FrontMenuLogic extends BaseLogic
             return array();
         }
 
-        //print_r($data);exit;
         $result = [];
+        //1.获取父菜单（按顺序）
         foreach ($data as $key=>$item) {
-            if($item['pid'] == 0){
+            if ($item['pid'] == 0) {
                 $result[$item['id']] = array(
                     'id' => $item['id'],
                     'name' => $item['name'],
@@ -45,11 +45,14 @@ class FrontMenuLogic extends BaseLogic
                     'pid' =>$item['pid'],
                     'target' => $item['target'],
                     'menu_type' => $item['menu_type'],
+                    'children' =>  [],
                 );
-                if(!isset($result[$item['id']]['children'])){
-                    $result[$item['id']]['children'] = [];
-                }
-            }else{
+            }
+        }
+
+        //2.获取子菜单
+        foreach ($data as $key=>$item) {
+            if($item['pid'] != 0){
                 $result[$item['pid']]['children'][] = array(
                     'id' => $item['id'],
                     'name' => $item['name'],
@@ -62,6 +65,7 @@ class FrontMenuLogic extends BaseLogic
                 );
             }
         }
+
         return $result;
     }
 
@@ -128,6 +132,34 @@ class FrontMenuLogic extends BaseLogic
         if(!$model->deleteData($id)){
             $this->errorCode = 40003;
             $this->errorMessage = '菜单删除失败！';
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 给菜单排序
+     * @param array $order 菜单ID对应的顺序信息
+     * @return bool
+     */
+    public function sortMenu($order){
+        if(empty($order) || !is_array($order)){
+            $this->errorCode = 10001;
+            $this->errorMessage = '参数异常！';
+            return false;
+        }
+
+        //过滤
+        foreach($order as $id=>$sort){
+            if(!$sort){
+                unset($order[$id]);
+            }
+        }
+
+        $model = FrontMenuModel::instance();
+        if(!$model->sortMenu($order)){
+            $this->errorCode = 40004;
+            $this->errorMessage = '菜单顺序保存失败！';
             return false;
         }
         return true;

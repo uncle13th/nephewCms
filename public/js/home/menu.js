@@ -5,7 +5,6 @@ $(function() {
 
     function init(){
 
-        //Make the dashboard widgets sortable Using jquery UI
         $(".connectedSortable").sortable({
             placeholder: "sort-highlight",
             connectWith: ".connectedSortable",
@@ -40,6 +39,11 @@ $(function() {
             showAddModal(pid);
         })
 
+        //添加菜单
+        $(".tab-content .box-footer .btn-default").on('click', function(){
+            showAddModal(0);
+        })
+
         //修改菜单
         $(".fa-edit").on('click', function(){
             var data = $(this).attr('k');
@@ -57,6 +61,16 @@ $(function() {
         $("#delModal .btn-primary").on('click', function(){
             delData();
         });
+
+        //保存菜单--排序
+        $(".tab-content .box-footer .btn-info").on('click', function(){
+            setMenuOrder();
+        })
+
+        //保存菜单--排序
+        $(".tab-content .box-footer .btn-danger").on('click', function(){
+            cancelSortOrder();
+        })
     }
 
     //显示添加菜单窗口
@@ -67,15 +81,8 @@ $(function() {
         //清空数据
         clearModalData();
         //设置上级菜单
-        if(pid == 0){
-            //一级菜单
-            $("#pid").val(pid);
-            $("#pid").attr("disabled", true);
-        }else{
-            //二级菜单
-            $("#pid").val(pid);
-            $("#pid").attr("disabled", false);
-        }
+        $("#pid").val(pid);
+
         //设置菜单类型
         $(".nav-tabs-custom .nav-tabs li").each(function(){
             if($(this).hasClass("active")){
@@ -85,7 +92,6 @@ $(function() {
                 return false;
             }
         })
-
 
         //打开模态框
         $('#infoModal').modal({'backdrop' : false});
@@ -199,6 +205,68 @@ $(function() {
             }
         })
         return menu_type;
+    }
+
+    //获取菜单的顺序
+    function getMenuOrder(){
+        var arr = new Array();
+        var obj = $(".nav-tabs-custom .tab-pane.active input:hidden");
+        if(typeof obj == "undefined" || obj.length == 0){
+            return arr;
+        }
+
+        var i = 1;
+        var j = 1;
+        obj.each(function(){
+            var id = $(this).val();
+            var pid = $(this).attr("pid");
+            if(pid == 0){
+                j = 1;
+                arr[id] = i++;
+            }else{
+                arr[id] = j++;
+            }
+        })
+        return arr;
+    }
+
+    //保存菜单的顺序
+    function setMenuOrder(){
+        var arr = getMenuOrder();
+        if(arr.length == 0){
+            return false;
+        }
+
+        //获取菜单类型
+        var menu_type = getMenuType();
+        var href_url = '/home/front_menu?menu_type=' + menu_type;
+
+        var token = $("[name='_token']").val();
+        var data = {
+            _token : token,
+            order : arr
+        }
+        $.ajax({
+            type: "put",
+            url: "/home/front_menu",
+            data: data,
+            dataType: "json",
+            success: function(respone){
+                window.location.href = href_url;
+            },
+            error: function(){
+                window.location.href = href_url;
+            }
+        });
+
+    }
+
+    //取消菜单的排序
+    function cancelSortOrder(){
+        //获取菜单类型
+        var menu_type = getMenuType();
+        var href_url = '/home/front_menu?menu_type=' + menu_type;
+        window.location.href = href_url;
     }
 
     //保存菜单信息

@@ -21,11 +21,11 @@
             <!-- Custom Tabs -->
             <div class="nav-tabs-custom" style="margin-right: 35px;min-height:400px;">
                 <ul class="nav nav-tabs">
-                    <li k="1" class=""><a href="#tab_nav" data-toggle="tab" aria-expanded="false">头部导航菜单</a></li>
-                    <li k="2" class="active"><a href="#tab_footer" data-toggle="tab" aria-expanded="true">底部导航菜单</a></li>
+                    <li k="1" @if($menu_type == 1) class="active" @endif><a href="#tab_nav" data-toggle="tab" aria-expanded="false">头部导航菜单</a></li>
+                    <li k="2" @if($menu_type == 2) class="active" @endif><a href="#tab_footer" data-toggle="tab" aria-expanded="true">底部导航菜单</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane connectedSortable" id="tab_nav">
+                    <div @if($menu_type == 1) class="tab-pane active connectedSortable" @else class="tab-pane connectedSortable" @endif id="tab_nav">
                         @if(!empty($h_menus))
                             <?php $index = 1;?>
                             @foreach($h_menus as $menu)
@@ -35,6 +35,7 @@
                                             <div class="col-md-3">
                                                 <i class="fa fa-ellipsis-v"></i>
                                                 <i class="fa fa-ellipsis-v"></i>
+                                                <input type="hidden" pid="0" value="{{$menu['id']}}">
                                                 <span class="text">#{{$index++}}</span>
                                                 <a class="default" target="_blank" href="{{$menu['url']}}" title="点击跳转到{{$menu['name']}}">{{$menu['name']}}</a>
                                             </div>
@@ -80,6 +81,7 @@
                                                             <i class="fa fa-ellipsis-v"></i>
                                                             <i class="fa fa-ellipsis-v"></i>
                                                         </span>
+                                                                <input type="hidden" pid="{{$menu['id']}}" value="{{$child['id']}}">
                                                                 <span class="text">#{{$i++}}</span>
                                                                 <a class="default" target="_blank" href="{{$child['url']}}" title="点击跳转到{{$child['name']}}">{{$child['name']}}</a>
                                                             </div>
@@ -117,11 +119,13 @@
                                 </div>
                             @endforeach
                         @endif
-                        <div class="box-footer clearfix no-border" style="display: block;">
-                            <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
+                        <div class="box-footer clearfix no-border  pull-right" style="display: block;">
+                            <button type="button" class="btn btn-default">新增菜单</button>
+                            <button type="button" class="btn btn-info">保存</button>
+                            <button type="button" class="btn btn-danger">取消</button>
                         </div>
                     </div>
-                    <div class="tab-pane active connectedSortable" id="tab_footer">
+                    <div @if($menu_type == 2) class="tab-pane active connectedSortable" @else class="tab-pane connectedSortable" @endif  id="tab_footer">
                         @if(!empty($f_menus))
                             <?php $index = 1;?>
                         @foreach($f_menus as $menu)
@@ -213,8 +217,10 @@
                         </div>
                         @endforeach
                         @endif
-                        <div class="box-footer clearfix no-border" style="display: block;">
-                                <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
+                        <div class="box-footer clearfix no-border  pull-right" style="display: block;">
+                                <button type="button" class="btn btn-default">新增菜单</button>
+                                <button type="button" class="btn btn-info">保存</button>
+                                <button type="button" class="btn btn-danger">取消</button>
                         </div>
                     </div>
                 </div>

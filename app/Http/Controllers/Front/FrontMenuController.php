@@ -67,4 +67,19 @@ class FrontMenuController extends Controller
 
         return response()->json(['code' => '200', 'msg' => '']);
     }
+
+    /*
+     * 给菜单排序
+     */
+    public function sort(Request $request)
+    {
+        $order = $request->input('order');
+        $logic = FrontMenuLogic::getInstance();
+        $result = $logic->sortMenu($order);
+        if($result === false){
+            return response()->json(['code' => $logic->errorCode, 'msg' => $logic->errorMessage]);
+        }
+
+        return response()->json(['code' => '200', 'msg' => '']);
+    }
 }

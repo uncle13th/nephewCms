@@ -3,7 +3,7 @@
 namespace App\Http\Model\Front;
 
 use App\Http\Model\BaseModel;
-
+use DB;
 
 class FrontMenuModel extends BaseModel
 {
@@ -21,7 +21,7 @@ class FrontMenuModel extends BaseModel
      * @return array
      */
     public function getFrontMenus($type){
-        $data = $this->where('status', '!=', -1)->where('menu_type', $type)->get()->toArray();
+        $data = $this->where('status', '!=', -1)->where('menu_type', $type)->orderBy('sort', 'asc')->get()->toArray();
         return $data;
     }
 
@@ -37,7 +37,7 @@ class FrontMenuModel extends BaseModel
         }
 
         //判断名字是否被使用了
-        $num = $this->where('status', '!=', -1)->where('name', $data['name'])->count();
+        $num = $this->where('status', '!=', -1)->where('name', $data['name'])->where('menu_type', $data['menu_type'])->count();
         if($num > 0){
             return false;
         }
@@ -60,7 +60,8 @@ class FrontMenuModel extends BaseModel
             return false;
         }
 
-        $num = $this->where('status', '!=', -1)->where('id','!=', $data['id'])->where('name', $data['name'])->count();
+        $num = $this->where('status', '!=', -1)->where('id','!=', $data['id'])->where('name', $data['name'])
+            ->where('menu_type', $data['menu_type'])->count();
         if($num > 0){
             return false;
         }
@@ -77,10 +78,10 @@ class FrontMenuModel extends BaseModel
     }
 
     /**
-     * 删除菜单
-     * @param int $id 菜单id
-     * @return bool
-     */
+ * 删除菜单
+ * @param int $id 菜单id
+ * @return bool
+ */
     public function deleteData($id){
         if(!is_numeric($id) || $id < 1){
             return false;
@@ -99,12 +100,34 @@ class FrontMenuModel extends BaseModel
         //删除子菜单
         if($info['pid'] == 0){
             $model = $this->where('pid', $id)->where('status', '!=', -1);
-            $data['status'] = -1;
-            if(!$model->update($data)){
-                return false;
+            if($model->count() > 0){
+                $data['status'] = -1;
+                if(!$model->update($data)){
+                    return false;
+                }
             }
         }
 
+        return true;
+    }
+
+    /**
+     * 给菜单排序
+     * @param array $order 菜单ID对应的顺序信息
+     * @return bool
+     */
+    public function sortMenu($order){
+        if(empty($order) || !is_array($order)){
+            return false;
+        }
+
+        DB::beginTransaction();
+
+        foreach($order as $id=>$sort){
+            DB::table($this->table)->where('id', $id)->update(['sort' => $sort]);
+        }
+
+        DB::commit();
         return true;
     }
 }

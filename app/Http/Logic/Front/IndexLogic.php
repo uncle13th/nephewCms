@@ -2,10 +2,10 @@
 namespace App\Http\Logic\Front;
 
 use App\Http\Logic\BaseLogic;
-use App\Http\Model\Front\FrontMenuModel;
+use App\Http\Model\Front\IndexModel;
 use Illuminate\Support\Facades\Auth;
 
-class FrontMenuLogic extends BaseLogic
+class IndexLogic extends BaseLogic
 {
     /**
      * 获取头部导航菜单

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Http\Logic\Front\FrontMenuLogic;
+use App\Http\Logic\Front\IndexLogic;
 use Illuminate\Http\Request;
 use App\Http\Logic\User\USerLogic;
 
-class FrontMenuController extends Controller
+class IndexController extends Controller
 {
 
     public function __construct()

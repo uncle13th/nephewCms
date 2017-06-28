@@ -5,7 +5,7 @@ namespace App\Http\Model\Front;
 use App\Http\Model\BaseModel;
 use DB;
 
-class FrontMenuModel extends BaseModel
+class IndexModel extends BaseModel
 {
 
     protected $table = 'front_menu';

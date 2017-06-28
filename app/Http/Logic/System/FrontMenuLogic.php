@@ -1,8 +1,8 @@
 <?php
-namespace App\Http\Logic\Front;
+namespace App\Http\Logic\System;
 
 use App\Http\Logic\BaseLogic;
-use App\Http\Model\Front\FrontMenuModel;
+use App\Http\Model\System\FrontMenuModel;
 use Illuminate\Support\Facades\Auth;
 
 class FrontMenuLogic extends BaseLogic

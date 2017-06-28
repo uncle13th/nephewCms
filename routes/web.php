@@ -70,13 +70,13 @@ Route::group(['middleware' => 'auth', 'prefix' => '/home'], function () {
 //    });
 
     //展示导航菜单列表
-    Route::get('front_menu', 'Front\FrontMenuController@show');
+    Route::get('front_menu', 'System\FrontMenuController@show');
     //保存导航菜单信息
-    Route::post('front_menu', 'Front\FrontMenuController@save');
+    Route::post('front_menu', 'System\FrontMenuController@save');
     //删除导航菜单
-    Route::delete('front_menu', 'Front\FrontMenuController@delete');
+    Route::delete('front_menu', 'System\FrontMenuController@delete');
     //修改导航菜单信息（排序）
-    Route::put('front_menu', 'Front\FrontMenuController@sort');
+    Route::put('front_menu', 'System\FrontMenuController@sort');
 });
 
 /****************************************  前端网站路由  ****************************************/

@@ -26,7 +26,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/password/reset', 'Auth\PasswordController@showResetFrom');
     //提交修改密码
     Route::post('/password/reset', 'Auth\PasswordController@reset');
+
+    //页面管理--首页管理
+    Route::get('/home/index', 'Pages\IndexController@showIndexPage');
+    //页面管理--产品类型管理
+    Route::get('/home/product/type', 'Pages\ProductController@showTypePage');
+    //页面管理--产品列表
+    Route::get('/home/product/list', 'Pages\ProductController@showListPage');
+    //页面管理--关于我们
+    Route::get('/home/about', 'Pages\AboutController@showAboutPage');
+    //页面管理--联系我们
+    Route::get('/home/connect', 'Pages\AboutController@showConnectPage');
 });
+
+
 
 /**
  * 角色管理
@@ -64,10 +77,6 @@ Route::group(['middleware' => 'auth', 'prefix' => '/home'], function () {
     Route::get('file', function(){
         return view('home.file');
     });
-    //导航菜单管理
-//    Route::get('menu', function(){
-//        return view('home.menu');
-//    });
 
     //展示导航菜单列表
     Route::get('front_menu', 'System\FrontMenuController@show');
@@ -81,9 +90,8 @@ Route::group(['middleware' => 'auth', 'prefix' => '/home'], function () {
 
 /****************************************  前端网站路由  ****************************************/
 
-Route::get('/', function () {
-    return view('front.index');
-});
+Route::get('/', 'Front\IndexController@show');
+
 
 Route::get('/about', function(){
     return view('front.about');

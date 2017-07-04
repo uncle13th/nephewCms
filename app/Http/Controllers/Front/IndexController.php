@@ -4,82 +4,43 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Logic\Front\IndexLogic;
+use App\Http\Logic\System\FrontMenuLogic;
 use Illuminate\Http\Request;
-use App\Http\Logic\User\USerLogic;
 
 class IndexController extends Controller
 {
 
     public function __construct()
     {
-//        $this->middleware('auth');
     }
 
     /*
-     * 查看角色信息
+     * 展示首页页面内容
      */
     public function show(Request $request)
     {
-        $inputs = $request->input();
-        if(empty($inputs) ||empty($inputs['menu_type'])){
-            $menu_type = 1;
-        }else{
-            $menu_type = intval($inputs['menu_type']);
-            if($menu_type < 1){
-                $menu_type = 1;
-            }
-        }
+        //获取语言
+        $lang = $this->getFrontLanguage($request);
+
 
         $logic = FrontMenuLogic::getInstance();
-        $header_menus = $logic->getFrontMenus(1);
-        $footer_menus = $logic->getFrontMenus(2);
+        $header_menus = $logic->getHeaderMenu($lang);
+        $footer_menus = $logic->getFooterMenu($lang);
+//        print_r($header_menus);
 //        print_r($footer_menus);exit;
 
-        return view('home.menu', ['menu_type'=>$menu_type, 'h_menus'=>$header_menus, 'f_menus'=>$footer_menus]);
+        //获取网站支持的语言列表
+        $system_lang = config('app.system_lang');
+//        print_r($system_lang);exit;
+
+        $data = array(
+            'lang' => $lang,
+            'header_menu' => $header_menus,
+            'footer_menus' => $footer_menus,
+            'system_lang' => $system_lang,
+        );
+        return view('front.index', $data);
     }
 
-    /*
-     * 保存菜单信息
-     */
-    public function save(Request $request)
-    {
-        $inputs = $request->input();
-        $logic = FrontMenuLogic::getInstance();
-        $result =$logic->saveData($inputs);
-        if($result === false){
-            return response()->json(['code' => $logic->errorCode, 'msg' => $logic->errorMessage]);
-        }
 
-        return response()->json(['code' => '200', 'msg' => '']);
-    }
-
-    /*
-     * 删除菜单
-     */
-    public function delete(Request $request)
-    {
-        $id = $request->input('id');
-        $logic = FrontMenuLogic::getInstance();
-        $result = $logic->deleteData($id);
-        if($result === false){
-            return response()->json(['code' => $logic->errorCode, 'msg' => $logic->errorMessage]);
-        }
-
-        return response()->json(['code' => '200', 'msg' => '']);
-    }
-
-    /*
-     * 给菜单排序
-     */
-    public function sort(Request $request)
-    {
-        $order = $request->input('order');
-        $logic = FrontMenuLogic::getInstance();
-        $result = $logic->sortMenu($order);
-        if($result === false){
-            return response()->json(['code' => $logic->errorCode, 'msg' => $logic->errorMessage]);
-        }
-
-        return response()->json(['code' => '200', 'msg' => '']);
-    }
 }

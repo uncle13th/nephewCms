@@ -15,7 +15,7 @@ class FrontMenuController extends Controller
     }
 
     /*
-     * 查看角色信息
+     * 展示前端菜单管理页面
      */
     public function show(Request $request)
     {
@@ -32,7 +32,6 @@ class FrontMenuController extends Controller
         $logic = FrontMenuLogic::getInstance();
         $header_menus = $logic->getFrontMenus(1);
         $footer_menus = $logic->getFrontMenus(2);
-//        print_r($footer_menus);exit;
 
         return view('home.menu', ['menu_type'=>$menu_type, 'h_menus'=>$header_menus, 'f_menus'=>$footer_menus]);
     }

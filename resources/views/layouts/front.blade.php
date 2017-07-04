@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Bootstrap Carousel Component Slider/Slideshow/Gallery/Banner</title>
+    <title>恩凯公司</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{url('bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" />
@@ -25,7 +25,7 @@
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle hamburger hamburger-close collapsed"
                         data-target="#navbar-default-collapse" data-toggle="collapse">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="sr-only">导航菜单</span>
                     <span class="hamburger-bar"></span>
                 </button>
                 <a href="/" class="navbar-brand navbar-logo vertical-align" title="恩凯公司">
@@ -37,36 +37,40 @@
             </div>
             <div class="collapse navbar-collapse navbar-collapse-toolbar nav-shop" id="navbar-default-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">简体中文 <span class="caret"></span></a>
+                    <li class="dropdown" style="border-bottom: 5px solid #ffffff;">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$system_lang[$lang]}}<span class="caret"></span></a>
                         <ul class="dropdown-menu dropdown-menu-right animate">
-                            <li><a href="#">繁体中文</a></li>
-                            <li><a href="#">English</a></li>
+                            @foreach($system_lang as $lang_key=>$lang_item)
+                            <li><a href="?lang={{$lang_key}}" @if($lang_key == $lang) class="active" @endif >{{$lang_item}}</a></li>
+                            @endforeach
                         </ul>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right navlist">
-                    <li><a href="http://show.metinfo.cn/muban/res013/323/" title="首页" class="link active">首页</a></li>
-                    <li class="dropdown margin-left-40">
-                        <a
-                                class="dropdown-toggle link "
-                                data-toggle="dropdown"
-                                data-hover="dropdown"
-                                href="product/list"
-                                aria-expanded="false"
-
-                                title="产品"
-                        >产品 <span class="caret"></span></a>
-                        <ul class="dropdown-menu dropdown-menu-right animate">
-                            <li class='nav-parent visible-xs'><a href="product/"  title="全部">全部</a></li>
-                            <li><a href="product?id=112" class=""  title="智能手表">智能手表</a></li>
-                            <li><a href="product?id=113" class=""  title="智能眼镜">智能眼镜</a></li>
-                            <li><a href="product?id=114" class=""  title="机器人">机器人</a></li>
-                            <li><a href="product?id=118" class=""  title="体感车">体感车</a></li>
-                            <li><a href="product?id=119" class=""  title="无人机">无人机</a></li>
-                        </ul>
-                    </li>
-                    <li class="margin-left-40"><a href="about"  title="关于" class="link ">关于</a></li>
+                    @if(!empty($header_menu))
+                        @foreach($header_menu as $h_menu)
+                            @if(empty($h_menu['children']))
+                                <li class="margin-left-40"><a href="{{$h_menu['url']}}"  title="{{$h_menu['name']}}" class="link " target="{{$h_menu['target']}}">{{$h_menu['name']}}</a></li>
+                            @else
+                                <li class="dropdown margin-left-40" style="border-bottom: 5px solid #ffffff;">
+                                    <a
+                                            class="dropdown-toggle link "
+                                            data-toggle="dropdown"
+                                            data-hover="dropdown"
+                                            href="{{$h_menu['url']}}"
+                                            aria-expanded="false"
+                                            title="{{$h_menu['name']}}"
+                                            target="{{$h_menu['target']}}"
+                                    >{{$h_menu['name']}} <span class="caret"></span></a>
+                                    <ul class="dropdown-menu dropdown-menu-right animate">
+                                        @foreach($h_menu['children'] as $h_child)
+                                        <li><a href="{{$h_child['url']}}" class=""  title="{{$h_child['name']}}" target="{{$h_child['target']}}">{{$h_child['name']}}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @endif
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </div>
@@ -166,12 +170,15 @@
 
 
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="{{url('plugins/bootstrap-carousel/js/jquery-1.9.1.min.js')}}"></script>
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script>
+{{--<script src="{{url('plugins/bootstrap-carousel/js/jssor.slider.mini.js')}}"></script>--}}
+{{--<script src="{{asset('plugins/jQuery/jquery-2.2.3.min.js')}}"></script>--}}
 <script src="{{url('bootstrap/js/bootstrap.min.js')}}"></script>
-<script src="{{url('front/docs.min.js')}}"></script>
+{{--<script src="{{url('front/docs.min.js')}}"></script>--}}
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="{{url('front/ie10-viewport-bug-workaround.js')}}"></script>
-<script src="{{url('js/metinfo.js')}}"></script>
+{{--<script src="{{url('js/metinfo.js')}}"></script>--}}
+<script src="{{url('front/menu.js')}}"></script>
 @yield('java-script')
 
 </body>

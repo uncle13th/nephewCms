@@ -9,18 +9,86 @@ class FrontMenuLogic extends BaseLogic
 {
     /**
      * 获取头部导航菜单
+     * @param string $lang 语言
      * @return array
      */
-    public function getHeaderMenu(){
-        return $this->getFrontMenus(1);
+    public function getHeaderMenu($lang = 'zh_cn'){
+        if(empty($lang)){
+            $lang = env('front_lang', 'zh_cn');
+        }
+        $model = FrontMenuModel::instance();
+        $data = $model->getHeaderMenu($lang);
+        if(!$data){
+            return array();
+        }
+
+        $result = [];
+        //1.获取父菜单（按顺序）
+        foreach ($data as $key=>$item) {
+            if ($item['pid'] == 0) {
+                $result[$item['id']] = array(
+                    'name' => $item['name'],
+                    'url' => $item['url'],
+                    'target' => $item['target'],
+                    'children' =>  [],
+                );
+            }
+        }
+
+        //2.获取子菜单
+        foreach ($data as $key=>$item) {
+            if($item['pid'] != 0 && isset($result[$item['pid']])){
+                $result[$item['pid']]['children'][] = array(
+                    'name' => $item['name'],
+                    'url' => $item['url'],
+                    'target' => $item['target'],
+                );
+            }
+        }
+
+        return $result;
     }
 
     /**
      * 获取底部导航菜单
+     * @param string $lang 语言
      * @return array
      */
-    public function getFooterMenu(){
-        return $this->getFrontMenus(2);
+    public function getFooterMenu($lang = 'zh_cn'){
+        if(empty($lang)){
+            $lang = env('front_lang', 'zh_cn');
+        }
+        $model = FrontMenuModel::instance();
+        $data = $model->getFooterMenu($lang);
+        if(!$data){
+            return array();
+        }
+
+        $result = [];
+        //1.获取父菜单（按顺序）
+        foreach ($data as $key=>$item) {
+            if ($item['pid'] == 0) {
+                $result[$item['id']] = array(
+                    'name' => $item['name'],
+                    'url' => $item['url'],
+                    'target' => $item['target'],
+                    'children' =>  [],
+                );
+            }
+        }
+
+        //2.获取子菜单
+        foreach ($data as $key=>$item) {
+            if($item['pid'] != 0 && isset($result[$item['pid']])){
+                $result[$item['pid']]['children'][] = array(
+                    'name' => $item['name'],
+                    'url' => $item['url'],
+                    'target' => $item['target'],
+                );
+            }
+        }
+
+        return $result;
     }
 
     /**

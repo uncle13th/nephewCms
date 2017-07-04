@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Model\System;
+namespace App\Http\Model\Pages;
 
 use App\Http\Model\BaseModel;
 use DB;
 
-class FrontMenuModel extends BaseModel
+class BannerModel extends BaseModel
 {
 
-    protected $table = 'front_menu';
+    protected $table = 'index_banner';
 
     /*
      * 不能被批量赋值的属性
@@ -16,32 +16,31 @@ class FrontMenuModel extends BaseModel
     protected $guarded = [];
 
     /**
-     * 获取前端网站的头部导航菜单(根据语言获取不同菜单)
-     * @param string $lang 语言
-     * @return array
+     * 获取轮播图信息（包含隐藏的）
+     * @return mixed
      */
-    public function getHeaderMenu($lang = 'zh_cn'){
-        if(empty($lang)){
-            $lang = 'zh_cn';
-        }
-        $data = $this->where('status', '!=', -1)->where('menu_type', 1)->where('status', 1)
-                    ->where('lang', 'regexp', $lang)->orderBy('sort', 'asc')->get()->toArray();
+    public function getAllBanners(){
+        $data = $this->where('status', '!=', -1)->orderBy('sort', 'asc')->get()->toArray();
         return $data;
     }
 
     /**
-     * 获取前端网站的底部导航菜单(根据语言获取不同菜单)
+     * 获取可以在首页展示的轮播图
      * @param string $lang 语言
-     * @return array
+     * @return mixed
      */
-    public function getFooterMenu($lang = 'zh_cn'){
+    public function getIndexBanners($lang = 'zh_cn'){
         if(empty($lang)){
             $lang = 'zh_cn';
         }
-        $data = $this->where('status', '!=', -1)->where('menu_type', 2)->where('status', 1)
-                    ->where('lang', 'regexp', $lang)->orderBy('sort', 'asc')->get()->toArray();
+        $data = $this->where('status', 1)->where('lang', 'regexp', $lang)->orderBy('sort', 'asc')->get()->toArray();
         return $data;
     }
+
+
+
+
+
 
 
     /**

@@ -1,5 +1,7 @@
 @extends('layouts.main')
-
+@section('css')
+    <link rel="stylesheet" href="{{asset('/plugins/fancybox/jquery.fancybox.css')}}" type="text/css" media="screen" />
+@endsection
 @section('location')
     <section class="content-header">
         <div class="container col-xs-12 col-sm-12 col-md-12">
@@ -59,7 +61,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="box-tools pull-right">
-                                                    <a href="#"><i class="fa fa-fw fa-image" k="{{$item['img']}}"></i></a>
+                                                    <a href="#"><i class="fa fa-fw fa-image" k-img="{{$item['img']}}"  k-id="{{$item['id']}}"></i></a>
                                                     <a href="#"><i class="fa fa-edit" k="{{json_encode($item)}}"></i></a>
                                                     <a href="#"><i class="fa fa-trash-o" k="{{$item['id']}}"></i></a>
                                                 </div>
@@ -71,8 +73,8 @@
                         @endif
                         <div class="box-footer clearfix no-border  pull-right" style="display: block;">
                             <button id="addBanner" type="button" class="btn btn-default">新增轮播图</button>
-                            <button id="saveBanners" type="button" class="btn btn-info">保存</button>
-                            <button id="saveConfig" type="button" class="btn btn-danger">取消</button>
+                            <button id="saveSortData" type="button" class="btn btn-info">保存</button>
+                            <button type="button" class="btn btn-danger">取消</button>
                         </div>
                     </div>
                     <div @if($menu_type == 2) class="tab-pane active connectedSortable" @else class="tab-pane connectedSortable" @endif  id="tab_config">
@@ -85,7 +87,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="url" class="col-sm-2 control-label">首页产品位的数量</label>
+                                    <label for="url" class="col-sm-2 control-label">首页产品的数量</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="indexProductNum" placeholder="请填写数字，必须大于0" value="{{$index_product_num}}">
                                     </div>
@@ -93,8 +95,13 @@
                             </div>
                         </div>
                         <div class="box-footer clearfix no-border col-sm-offset-2  " style="display: block;">
-                                <button type="button" class="btn btn-info">保存</button>
+                                <button id="saveConfigData" type="button" class="btn btn-info">保存</button>
                                 <button type="button" class="btn btn-danger">取消</button>
+                        </div>
+                        <div class="box-footer clearfix no-border col-sm-offset-2  " style="display: block;">
+                            <div class="col-sm-12">
+                                <p id="saveConfigResult" class="text-green"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -102,8 +109,6 @@
         </div>
     </div>
     {{ csrf_field() }}
-    <input type="hidden" id="footerMenus" value="{{json_encode($f_menus)}}" >
-    <input type="hidden" id="headerMenus" value="{{json_encode($h_menus)}}" >
 
     <!-- 模态框 展示图片 -->
     <div id="imageModal" class="modal " tabindex="-1" role="dialog">
@@ -114,23 +119,18 @@
                     <h3 class="box-title">图片展示</h3>
                 </div>
                 <div class="form-horizontal">
-                    <input type="hidden" id="menuId" value="0" >
-                    <input type="hidden" id="operation" value="" >
+                    <input type="hidden" id="sourceId" value="0" >
                     <div class="box-body">
-                        <div id="idArea" class="form-group" style="display: none;">
-                            <label class="col-sm-2 control-label">轮播图ID</label>
-                            <label class="col-sm-1 control-label"></label>
-                        </div>
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <img style="width: 100%; height: 100%;;" src="http://nephewcms.com/uploads/test/1.png">
+                                <img id="imgShow" style="width: 100%; height: 100%;" src="http://nephewcms.com/uploads/test/1.png">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="img" class="col-sm-2 control-label">图片</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
-                                    <input id="img" class="img_src form-control" name="img" type="text" value="" src="http://nephewcms.com/uploads/test/1.png">
+                                    <input id="img" class="img_src form-control" name="img" type="text" value="" src="">
                                         <span class="input-group-btn">
                                             <a href="/filemanager/dialog.php?type=1&amp;field_id=img" class="btn btn-warning iframe-btn">选择图片</a>
                                         </span>
@@ -142,11 +142,11 @@
                     <div class="box-footer">
                         <div class="form-group" style="margin-bottom: 0px;">
                             <div class="col-sm-8">
-                                <p id="saveResult" class="text-green"></p>
+                                <p id="saveImgResult" class="text-green"></p>
                             </div>
                             <div class="col-sm-4">
-                                <button id="saveData" class="btn btn-info pull-right">保存</button>
-                                <button class="btn btn-default pull-right" data-dismiss="modal" style="margin-right: 10px;">取消</button>
+                                <button id="saveImgData" class="btn btn-info pull-right">保存</button>
+                                <button class="btn btn-default pull-right" data-dismiss="modal" style="margin-right: 10px;">关闭</button>
                             </div>
                         </div>
                     </div>
@@ -164,7 +164,7 @@
                     <h3 class="box-title">新增轮播图</h3>
                 </div>
                 <div class="form-horizontal">
-                    <input type="hidden" id="menuId" value="0" >
+                    <input type="hidden" id="bannerId" value="0" >
                     <input type="hidden" id="operation" value="" >
                     <div class="box-body">
                         <div id="idArea" class="form-group" style="display: none;">
@@ -194,12 +194,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="img" class="col-sm-2 control-label">图片</label>
+                            <label for="image" class="col-sm-2 control-label">图片</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
-                                    <input id="img" class="img_src form-control" name="img" type="text" value="" src="http://nephewcms.com/uploads/test/1.png">
+                                    <input id="image" class="img_src form-control" name="image" type="text" value="" src="http://nephewcms.com/uploads/test/1.png">
                                         <span class="input-group-btn">
-                                            <a href="/filemanager/dialog.php?type=1&amp;field_id=img" class="btn btn-warning iframe-btn">选择图片</a>
+                                            <a href="/filemanager/dialog.php?type=1&amp;field_id=image" class="btn btn-warning iframe-btn">选择图片</a>
                                         </span>
                                 </div>
                             </div>
@@ -242,8 +242,8 @@
                                 <p id="saveResult" class="text-green"></p>
                             </div>
                             <div class="col-sm-4">
-                                <button id="saveData" class="btn btn-info pull-right">保存</button>
-                                <button class="btn btn-default pull-right" data-dismiss="modal" style="margin-right: 10px;">取消</button>
+                                <button id="saveBannerData" class="btn btn-info pull-right">保存</button>
+                                <button class="btn btn-default pull-right" data-dismiss="modal" style="margin-right: 10px;">关闭</button>
                             </div>
                         </div>
                     </div>
@@ -252,17 +252,17 @@
         </div>
     </div>
 
-    <!-- 模态框 删除用户 -->
+    <!-- 模态框 删除轮播图 -->
     <div id="delModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="box box-danger">
                 <div class="modal-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">删除菜单</h4>
+                    <h4 class="modal-title">删除轮播图</h4>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" value="0" >
-                    <p>是否确定要删除该菜单？</p>
+                    <p>是否确定要删除该轮播图？</p>
                 </div>
                 <div class="box-footer">
                     <div class="form-group" style="margin-bottom: 0px;">
@@ -271,7 +271,7 @@
                         </div>
                         <div class="col-sm-4">
                             <button type="button" class="btn btn-primary pull-right">确定</button>
-                            <button type="button" class="btn btn-default pull-right" data-dismiss="modal" style="margin-right: 10px;">取消</button>
+                            <button type="button" class="btn btn-default pull-right" data-dismiss="modal" style="margin-right: 10px;">关闭</button>
                         </div>
                     </div>
                 </div>
@@ -283,7 +283,8 @@
 @endsection
 
 @section('js')
-    <script src="{{asset('/plugins/JQueryUI/jquery-ui.min.js')}}"></script>
-    <script src="{{asset('/js/home/pages/index.js')}}"></script>
 
+    <script src="{{asset('/plugins/JQueryUI/jquery-ui.min.js')}}"></script>
+    <script src="{{asset('/plugins/fancybox/jquery.fancybox.js')}}"></script>
+    <script src="{{asset('/js/home/pages/index.js')}}"></script>
 @endsection

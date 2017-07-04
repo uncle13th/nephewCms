@@ -37,35 +37,19 @@ class BannerModel extends BaseModel
         return $data;
     }
 
-
-
-
-
-
-
     /**
-     * 获取前端网站的导航菜单
-     * @param int $type 类型：1-头部导航菜单；2-底部导航菜单
-     * @return array
-     */
-    public function getFrontMenus($type){
-        $data = $this->where('status', '!=', -1)->where('menu_type', $type)->orderBy('sort', 'asc')->get()->toArray();
-        return $data;
-    }
-
-    /**
-     * 新增菜单
-     * @param array $data 菜单信息数组
+     * 新增轮播图
+     * @param array $data 轮播图信息数组
      * @return bool|array
      */
     public function addData($data){
-        if(empty($data) || empty($data['name']) || !isset($data['status'])
-            || $data['menu_type'] < 1 || empty($data['lang']) || empty($data['target'])){
+        if(empty($data) || empty($data['title']) || !isset($data['status']) || empty($data['url']) || empty($data['img'])
+            || empty($data['lang']) || empty($data['target'])){
             return false;
         }
 
         //判断名字是否被使用了
-        $num = $this->where('status', '!=', -1)->where('name', $data['name'])->where('menu_type', $data['menu_type'])->count();
+        $num = $this->where('status', '!=', -1)->where('title', $data['title'])->count();
         if($num > 0){
             return false;
         }
@@ -78,18 +62,17 @@ class BannerModel extends BaseModel
     }
 
     /**
-     * 更新菜单信息
-     * @param array $data 菜单信息数组
+     * 更新轮播图信息
+     * @param array $data 轮播图信息数组
      * @return bool|array
      */
     public function updateData($data){
-        if(empty($data) || !isset($data['id']) || $data['id'] < 1 || empty($data['name']) || !isset($data['status'])
-            || $data['menu_type'] < 1 || empty($data['lang']) || empty($data['target'])){
+        if(empty($data) || !isset($data['id']) || $data['id'] < 1 || empty($data['title']) || !isset($data['status'])
+            || empty($data['url']) || empty($data['img']) || empty($data['lang']) || empty($data['target'])){
             return false;
         }
 
-        $num = $this->where('status', '!=', -1)->where('id','!=', $data['id'])->where('name', $data['name'])
-            ->where('menu_type', $data['menu_type'])->count();
+        $num = $this->where('status', '!=', -1)->where('id','!=', $data['id'])->where('title', $data['title'])->count();
         if($num > 0){
             return false;
         }
@@ -106,10 +89,10 @@ class BannerModel extends BaseModel
     }
 
     /**
- * 删除菜单
- * @param int $id 菜单id
- * @return bool
- */
+     * 删除轮播图
+     * @param int $id 轮播图id
+     * @return bool
+     */
     public function deleteData($id){
         if(!is_numeric($id) || $id < 1){
             return false;
@@ -119,32 +102,21 @@ class BannerModel extends BaseModel
         if(is_null($model)){
             return false;
         }
-        $info = $model->toArray();
+
         $data['status'] = -1;
         if(!$model->update($data)){
             return false;
-        }
-
-        //删除子菜单
-        if($info['pid'] == 0){
-            $model = $this->where('pid', $id)->where('status', '!=', -1);
-            if($model->count() > 0){
-                $data['status'] = -1;
-                if(!$model->update($data)){
-                    return false;
-                }
-            }
         }
 
         return true;
     }
 
     /**
-     * 给菜单排序
-     * @param array $order 菜单ID对应的顺序信息
+     * 保存轮播图排序信息
+     * @param array $order 轮播图ID对应的顺序信息
      * @return bool
      */
-    public function sortMenu($order){
+    public function sortBanners($order){
         if(empty($order) || !is_array($order)){
             return false;
         }
@@ -156,6 +128,28 @@ class BannerModel extends BaseModel
         }
 
         DB::commit();
+        return true;
+    }
+
+    /**
+     * 修改轮播图的图片
+     * @param int $id 轮播图id
+     * @param string $img 图片地址
+     * @return bool
+     */
+    public function updateBannerImage($id, $img){
+        if(!is_numeric($id) || $id < 1 || empty($img)){
+            return false;
+        }
+
+        $model = $this->where('id', $id)->where('status', '!=', -1)->first();
+        if(is_null($model)){
+            return false;
+        }
+        $data['img'] = $img;
+        if(!$model->update($data)){
+            return false;
+        }
         return true;
     }
 }

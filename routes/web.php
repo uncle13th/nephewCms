@@ -29,6 +29,18 @@ Route::group(['middleware' => 'auth'], function () {
 
     //页面管理--首页管理
     Route::get('/home/index', 'Pages\IndexController@showIndexPage');
+    //页面管理--首页管理--保存配置信息
+    Route::put('/home/index/config', 'Pages\IndexController@saveIndexConfig');
+
+    //页面管理--首页管理--保存数据（新增/编辑轮播图）
+    Route::post('/home/banner', 'Pages\IndexController@saveBanner');
+    //页面管理--首页管理--删除轮播图
+    Route::delete('/home/banner', 'Pages\IndexController@deleteBanner');
+    //页面管理--首页管理--修改轮播图顺序
+    Route::put('/home/banner', 'Pages\IndexController@sortBanners');
+    //页面管理--首页管理--修改轮播图的图片
+    Route::put('/home/banner/image', 'Pages\IndexController@updateBannerImage');
+
     //页面管理--产品类型管理
     Route::get('/home/product/type', 'Pages\ProductController@showTypePage');
     //页面管理--产品列表

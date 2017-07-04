@@ -142,7 +142,7 @@ class FrontMenuLogic extends BaseLogic
 
     /**
      * 保存菜单信息（支持新增菜单和修改菜单）
-     * @param array $params 用户信息数组
+     * @param array $params 菜单信息数组
      * @return bool
      */
     public function saveData($params){

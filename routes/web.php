@@ -27,10 +27,11 @@ Route::group(['middleware' => 'auth'], function () {
     //提交修改密码
     Route::post('/password/reset', 'Auth\PasswordController@reset');
 
-    //页面管理--首页管理
+    //页面管理--展示首页管理页面
     Route::get('/home/index', 'Pages\IndexController@showIndexPage');
     //页面管理--首页管理--保存配置信息
     Route::put('/home/index/config', 'Pages\IndexController@saveIndexConfig');
+
 
     //页面管理--首页管理--保存数据（新增/编辑轮播图）
     Route::post('/home/banner', 'Pages\IndexController@saveBanner');
@@ -41,8 +42,16 @@ Route::group(['middleware' => 'auth'], function () {
     //页面管理--首页管理--修改轮播图的图片
     Route::put('/home/banner/image', 'Pages\IndexController@updateBannerImage');
 
-    //页面管理--产品类型管理
+
+    //页面管理--产品类型管理--打开展示页面
     Route::get('/home/product/type', 'Pages\ProductController@showTypePage');
+    //页面管理--产品类型管理--保存类型信息--新增或修改
+    Route::post('/home/product/type', 'Pages\ProductController@saveProductType');
+    //页面管理--产品类型管理--修改产品类型的顺序
+    Route::put('/home/product/type', 'Pages\ProductController@sortProductType');
+    //页面管理--产品类型管理--删除产品类型
+    Route::delete('/home/product/type', 'Pages\ProductController@deleteProductType');
+
     //页面管理--产品列表
     Route::get('/home/product/list', 'Pages\ProductController@showListPage');
     //页面管理--关于我们

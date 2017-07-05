@@ -9,18 +9,16 @@
     <div id="slider1_container" style="visibility: hidden; position: relative; margin: 0 auto;
         top: 0px; left: 0px; width: 1300px; height: 500px; overflow: hidden;">
         <!-- Loading Screen -->
-        <div data-u="loading" style="position:absolute;top:0px;left:0px;background:url('plugins/bootstrap-carousel/img/loading.gif') no-repeat 50% 50%; background-color: rgba(0, 0, 0, .7);"></div>
+        <div data-u="loading" style="position:absolute;top:0px;left:0px;background:url({{asset('plugins/bootstrap-carousel/img/loading.gif')}}) no-repeat 50% 50%; background-color: rgba(0, 0, 0, .7);"></div>
         <!-- Slides Container -->
         <div u="slides" style="position: absolute; left: 0px; top: 0px; width: 1300px; height: 500px; overflow: hidden;">
+            @if(!empty($banners))
+                @foreach($banners as $banner)
             <div>
-                <img u="image" src2="images/01.jpg" />
+                <a href="{{$banner['url']}}" target="{{$banner['target']}}"><img u="image" src2="{{$banner['img']}}" /></a>
             </div>
-            <div>
-                <img u="image" src2="images/02.jpg" />
-            </div>
-            <div>
-                <img u="image" src2="images/03.jpg" />
-            </div>
+                @endforeach
+            @endif
         </div>
 
         <!--#region Bullet Navigator Skin Begin -->
@@ -43,7 +41,6 @@
             <span u="arrowright" class="jssora21r" style="top: 123px; right: 8px;">
             </span>
         <!--#endregion Arrow Navigator Skin End -->
-        <a style="display: none" href="https://www.jssor.com">Bootstrap Carousel</a>
     </div>
     <!-- Jssor Slider End -->
 </div>
@@ -57,30 +54,34 @@
         <div class='' data-plugin="appear" data-animate="fade" data-repeat="false">
             <div class="swiper-container swiper-navtab swiper-container-horizontal">
             <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#indexprolist" title="全部" data-toggle="tab" data-num='8' data-filter="*"><h3>全部</h3></a>
+                @if(!empty($product_types))
+                    <?php $i = 1; ?>
+                    @foreach($product_types as $product_type)
+                <li @if($i++ == 1) class="active" @endif>
+                    <a href="#indexprolist" title="{{$product_type['name']}}" data-toggle="tab" data-num='8' data-filter="{{$product_type['id']}}"><h3>{{$product_type['name']}}</h3></a>
                 </li>
 
-                <li>
-                    <a href="#indexprolist" title="智能手表" data-toggle="tab" data-filter="list_112"><h3>智能手表</h3></a>
-                </li>
+                {{--<li>--}}
+                    {{--<a href="#indexprolist" title="智能手表" data-toggle="tab" data-filter="list_112"><h3>智能手表</h3></a>--}}
+                {{--</li>--}}
 
-                <li>
-                    <a href="#indexprolist" title="智能眼镜" data-toggle="tab" data-filter="list_113"><h3>智能眼镜</h3></a>
-                </li>
+                {{--<li>--}}
+                    {{--<a href="#indexprolist" title="智能眼镜" data-toggle="tab" data-filter="list_113"><h3>智能眼镜</h3></a>--}}
+                {{--</li>--}}
 
-                <li>
-                    <a href="#indexprolist" title="机器人" data-toggle="tab" data-filter="list_114"><h3>机器人</h3></a>
-                </li>
+                {{--<li>--}}
+                    {{--<a href="#indexprolist" title="机器人" data-toggle="tab" data-filter="list_114"><h3>机器人</h3></a>--}}
+                {{--</li>--}}
 
-                <li>
-                    <a href="#indexprolist" title="体感车" data-toggle="tab" data-filter="list_118"><h3>体感车</h3></a>
-                </li>
+                {{--<li>--}}
+                    {{--<a href="#indexprolist" title="体感车" data-toggle="tab" data-filter="list_118"><h3>体感车</h3></a>--}}
+                {{--</li>--}}
 
-                <li>
-                    <a href="#indexprolist" title="无人机" data-toggle="tab" data-filter="list_119"><h3>无人机</h3></a>
-                </li>
-
+                {{--<li>--}}
+                    {{--<a href="#indexprolist" title="无人机" data-toggle="tab" data-filter="list_119"><h3>无人机</h3></a>--}}
+                {{--</li>--}}
+                    @endforeach
+                 @endif
             </ul>
                 <div class="swiper-scrollbar" style="display: none;"><div class="swiper-scrollbar-drag" style="width: 0px;"></div></div>
                 </div>

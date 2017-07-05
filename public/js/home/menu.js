@@ -50,7 +50,7 @@ $(function() {
             showEditModal(data);
         })
 
-        //修改菜单
+        //删除菜单
         $(".fa-trash-o").on('click', function(){
             var data = $(this).attr('k');
             showDeleteModal(data);
@@ -67,7 +67,7 @@ $(function() {
             setMenuOrder();
         })
 
-        //保存菜单--排序
+        //保存菜单--取消排序
         $(".tab-content .box-footer .btn-danger").on('click', function(){
             cancelSortOrder();
         })

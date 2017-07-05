@@ -33,38 +33,23 @@ class ProductTypeModel extends BaseModel
         if(empty($lang)){
             $lang = 'zh_cn';
         }
-        $data = $this->where('status', 1)->where('lang', 'regexp', $lang)->orderBy('sort', 'asc')->get()->toArray();
+        $data = $this->where('status', 1)->where('show', 1)->where('lang', 'regexp', $lang)->orderBy('sort', 'asc')->get()->toArray();
         return $data;
     }
 
 
-
-
-
-
     /**
-     * 获取前端网站的导航菜单
-     * @param int $type 类型：1-头部导航菜单；2-底部导航菜单
-     * @return array
-     */
-    public function getFrontMenus($type){
-        $data = $this->where('status', '!=', -1)->where('menu_type', $type)->orderBy('sort', 'asc')->get()->toArray();
-        return $data;
-    }
-
-    /**
-     * 新增菜单
-     * @param array $data 菜单信息数组
+     * 新增产品类型
+     * @param array $data 产品类型信息数组
      * @return bool|array
      */
     public function addData($data){
-        if(empty($data) || empty($data['name']) || !isset($data['status'])
-            || $data['menu_type'] < 1 || empty($data['lang']) || empty($data['target'])){
+        if(empty($data) || empty($data['name']) || !isset($data['status']) || !isset($data['show'])|| empty($data['lang'])){
             return false;
         }
 
         //判断名字是否被使用了
-        $num = $this->where('status', '!=', -1)->where('name', $data['name'])->where('menu_type', $data['menu_type'])->count();
+        $num = $this->where('status', '!=', -1)->where('name', $data['name'])->count();
         if($num > 0){
             return false;
         }
@@ -77,18 +62,17 @@ class ProductTypeModel extends BaseModel
     }
 
     /**
-     * 更新菜单信息
-     * @param array $data 菜单信息数组
+     * 更新产品类型信息
+     * @param array $data 产品类型信息数组
      * @return bool|array
      */
     public function updateData($data){
         if(empty($data) || !isset($data['id']) || $data['id'] < 1 || empty($data['name']) || !isset($data['status'])
-            || $data['menu_type'] < 1 || empty($data['lang']) || empty($data['target'])){
+            || !isset($data['show']) || empty($data['lang'])){
             return false;
         }
 
-        $num = $this->where('status', '!=', -1)->where('id','!=', $data['id'])->where('name', $data['name'])
-            ->where('menu_type', $data['menu_type'])->count();
+        $num = $this->where('status', '!=', -1)->where('id','!=', $data['id'])->where('name', $data['name'])->count();
         if($num > 0){
             return false;
         }
@@ -105,10 +89,10 @@ class ProductTypeModel extends BaseModel
     }
 
     /**
- * 删除菜单
- * @param int $id 菜单id
- * @return bool
- */
+     * 删除产品类型
+     * @param int $id 产品类型id
+     * @return bool
+     */
     public function deleteData($id){
         if(!is_numeric($id) || $id < 1){
             return false;
@@ -118,32 +102,21 @@ class ProductTypeModel extends BaseModel
         if(is_null($model)){
             return false;
         }
-        $info = $model->toArray();
+
         $data['status'] = -1;
         if(!$model->update($data)){
             return false;
-        }
-
-        //删除子菜单
-        if($info['pid'] == 0){
-            $model = $this->where('pid', $id)->where('status', '!=', -1);
-            if($model->count() > 0){
-                $data['status'] = -1;
-                if(!$model->update($data)){
-                    return false;
-                }
-            }
         }
 
         return true;
     }
 
     /**
-     * 给菜单排序
-     * @param array $order 菜单ID对应的顺序信息
+     * 保存产品类型的排序信息
+     * @param array $order 产品类型ID对应的顺序信息
      * @return bool
      */
-    public function sortMenu($order){
+    public function sortProductType($order){
         if(empty($order) || !is_array($order)){
             return false;
         }

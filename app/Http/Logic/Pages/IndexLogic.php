@@ -24,6 +24,23 @@ class IndexLogic extends BaseLogic
     }
 
     /**
+     * 获取可以在首页展示的轮播图（根据网站的语言获取不同的轮播图信息）
+     * @param string $lang 语言
+     * @return array
+     */
+    public function getIndexBanners($lang = 'zh_cn'){
+        if(empty($lang)){
+            $lang = 'zh_cn';
+        }
+        $model = BannerModel::instance();
+        $data = $model->getIndexBanners($lang);
+        if(!$data){
+            return array();
+        }
+        return $data;
+    }
+
+    /**
      * 保存轮播图信息（支持新增和修改轮播图）
      * @param array $params 轮播图信息数组
      * @return bool
@@ -171,44 +188,5 @@ class IndexLogic extends BaseLogic
             return false;
         }
         return true;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * 获取所有的产品类型（包含隐藏的）
-     * @return array
-     */
-    public function getAllProductTypes(){
-        $model = ProductTypeModel::instance();
-        $data = $model->getAllProductTypes();
-        if(!$data){
-            return array();
-        }
-        return $data;
-    }
-
-    public function addProductType(){
-
-    }
-
-    public function updateProductType(){
-
-    }
-
-    public function deleteProductType(){
-
     }
 }

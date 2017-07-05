@@ -99,9 +99,6 @@ class IndexController extends Controller
         return response()->json(['code' => '200', 'msg' => '']);
     }
 
-    //保存图片信息
-
-
     /*
      * 保存首页配置信息
      */
@@ -120,7 +117,7 @@ class IndexController extends Controller
     }
 
     /*
-     * 保存首页配置信息
+     * 更新轮播图图片信息
      */
     public function updateBannerImage(Request $request)
     {

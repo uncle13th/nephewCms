@@ -140,7 +140,7 @@ $(function(){
         $('#infoModal').modal({'backdrop' : false});
     }
 
-    //设置模态框各个字段信息（编辑产品类型）
+    //设置模态框各个字段信息（编辑用户）
     function setModalData(data){
         //console.log(data);return;
         var obj = $.parseJSON(data);
@@ -279,7 +279,7 @@ $(function(){
     function showDeleteModal(data){
         $('#delModal').modal({'backdrop' : false});
         $("#delModal :hidden").val(data);
-        $("#delModal").find('p').eq(0).html('是否确定要删除该产品类型(id=' + data + ')？');
+        $("#delModal").find('p').eq(0).html('是否确定要删除该用户(id=' + data + ')？');
     }
 
     //删除数据

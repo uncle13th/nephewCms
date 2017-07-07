@@ -3,12 +3,12 @@ namespace App\Http\Logic\Pages;
 
 use App\Http\Logic\BaseLogic;
 use App\Http\Model\Pages\ProductTypeModel;
-
+use App\Http\Model\Pages\ProductListModel;
 
 class ProductLogic extends BaseLogic
 {
     /**
-     * 获取所有的产品类型（包含隐藏的）
+     * 获取所有的产品类型（包含隐藏的,所有字段）
      * @return array
      */
     public function getAllProductTypes(){
@@ -128,4 +128,96 @@ class ProductLogic extends BaseLogic
         }
         return true;
     }
+
+    /**
+     * 获取所有的产品类型（包含隐藏的，）
+     * @return array ("id"=>"value")
+     */
+    public function getProductTypeMenu(){
+        $model = ProductTypeModel::instance();
+        $data = $model->getAllProductTypes();
+        if(!$data){
+            return array();
+        }
+
+        $result = [];
+        foreach($data as $item){
+            $result[$item['id']] = $item['name'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * 获取产品列表信息（包含隐藏的）
+     * @param int $type_id 产品类型id
+     * @param int $status 状态： -1：全部；1-有效；0-无效
+     * @param int $id 产品ID
+     * @param string $name 产品名称
+     * @return array
+     */
+    public function getProductList($type_id = 0, $status = -1, $id = 0, $name = ''){
+        if(!is_numeric($type_id) || $type_id < 0 || !is_numeric($status) || $status < -1 || $status >1){
+            $this->errorCode = 10001;
+            $this->errorMessage = '参数异常！';
+            return array();
+        }
+        $model = ProductListModel::instance();
+        $data = $model->getProductList($type_id, $status, $id, $name);
+        if(!$data){
+            return array();
+        }
+        return $data;
+    }
+
+    /**
+     * 删除产品
+     * @param int $id 产品id
+     * @return bool
+     */
+    public function deleteProduct($id){
+        if(!is_numeric($id) || $id < 1){
+            $this->errorCode = 10001;
+            $this->errorMessage = '参数异常！';
+            return false;
+        }
+
+        $model = ProductListModel::instance();
+        if(!$model->deleteData($id)){
+            $this->errorCode = 60005;
+            $this->errorMessage = '产品删除失败！';
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 保存产品排序数据
+     * @param array $order 产品ID对应的顺序信息
+     * @return bool
+     */
+    public function sortProductList($order){
+        if(empty($order) || !is_array($order)){
+            $this->errorCode = 10001;
+            $this->errorMessage = '参数异常！';
+            return false;
+        }
+
+        //过滤
+        foreach($order as $id=>$sort){
+            if(!$sort){
+                unset($order[$id]);
+            }
+        }
+
+        $model = ProductListModel::instance();
+        if(!$model->sortProductList($order)){
+            $this->errorCode = 60006;
+            $this->errorMessage = '产品顺序保存失败！';
+            return false;
+        }
+        return true;
+    }
+
+
 }

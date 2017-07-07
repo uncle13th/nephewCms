@@ -1,4 +1,7 @@
 @extends('layouts.main')
+{{--@section('css')--}}
+{{--<link rel="stylesheet" href="{{asset('/plugins/fancybox/jquery.fancybox.css')}}" type="text/css" media="screen" />--}}
+{{--@endsection--}}
 
 @section('location')
     <section class="content-header">
@@ -18,7 +21,6 @@
 @endsection
 
 @section('content')
-    <?php $i = 1; $sort = [];?>
     <section class="content">
         {{--<div class="row">--}}
         <div class="col-xs-12">
@@ -27,39 +29,27 @@
                     <i class="ion ion-clipboard"></i>
                     <h3 class="box-title">产品列表</h3>
                     <div class="box-tools pull-right">
-                        <div class="input-group input-group-sm" style="width: 750px;">
+                        <div class="input-group input-group-sm" style="width: 550px;">
                             <div class="input-group-btn">
-                                <button type="button" class="btn" style="width: 100px; background-color: #a0a9dd" >产品类型</button>
+                                <button type="button" class="btn bg-purple" style="width: 100px;" >产品类型</button>
                             </div>
-                            <select id="type" class="form-control">
+                            {{--<input id="keyword" type="text" class="form-control" placeholder="请输入id或名称" >--}}
+                            <select class="form-control">
                                 @if(!empty($types))
-                                    @foreach($types as $id=>$name)
-                                        <option value="{{$id}}" @if($type_id == $id) selected @endif>{{$name}}</option>
+                                    @foreach($types as $type)
+                                <option value="{{$type['id']}}" @if($type_id == $type['id']) selected @endif>{{$type['name']}}</option>
                                     @endforeach
                                 @endif
                             </select>
-                            <div class="input-group-btn" style="padding-left: 20px;">
-                                <button type="button" class="btn bg-purple" style="width: 100px;" >产品状态</button>
-                            </div>
-                            <select id="status" class="form-control">
-                                <option value="-1" @if($status == -1) selected @endif>全部</option>
-                                <option value="1" @if($status == 1) selected @endif>有效</option>
-                                <option value="0" @if($status == 0) selected @endif>隐藏</option>
-                            </select>
                             <div id="searchArea" class="input-group-btn" style="padding-left: 20px;">
-
-                                <button type="button" class="btn btn-warning dropdown-toggle" style="width: 100px;" data-toggle="dropdown"
-                                        aria-expanded="false" @if(isset($params['name'])) k="name" @else k="id" @endif>
-                                    @if(isset($params['name'])) 产品名称 @else 产品ID @endif
+                                <button type="button" class="btn btn-warning dropdown-toggle" style="width: 100px;" data-toggle="dropdown" aria-expanded="false" k="id">产品ID
                                     <span class="fa fa-caret-down"></span></button>
-
                                 <ul class="dropdown-menu">
                                     <li k="id"><a>产品ID</a></li>
                                     <li k="name"><a>产品名称</a></li>
                                 </ul>
                             </div>
-                            <input id="keyword" type="text" class="form-control" placeholder="请输入id或名称"
-                            @if(isset($params['id'])) value="{{$params['id']}}" @elseif(isset($params['name'])) value="{{$params['name']}}" @endif >
+                            <input id="keyword" type="text" class="form-control" placeholder="请输入id或名称" >
                             <div class="input-group-btn">
                                 <button id="search" type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                             </div>
@@ -95,10 +85,9 @@
 
 
                         @if(!empty($product_list))
-                            <?php $i = 1; ?>
+                            <?php $i=1; ?>
                             @foreach($product_list as $product)
                                 <li>
-                                    <?php $sort[] = $product['sort']; ?>
                                     <input type="hidden" value="{{$product['id']}}">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -106,12 +95,14 @@
                                             <i class="fa fa-ellipsis-v"></i>
                                             <i class="fa fa-ellipsis-v"></i>
                                         </span>
+                                            {{--<span class="text">#{{$i++}}</span>--}}
                                             <span class="text">[{{$product['id']}}]</span>
                                             <span class="text">{{$product['name']}}</span>
+                                            {{--<a class="default" target="_blank" href="#" title="点击跳转到{{$type['name']}}">{{$type['name']}}</a>--}}
                                         </div>
                                         <div class="col-md-1">
                                             @if(isset($types[$product['type']]))
-                                                <small class="label label-default"><i class="fa fa-clock-o"></i>{{$types[$product['type']]}}</small>
+                                                <small class="label label-default"><i class="fa fa-clock-o"></i>{{$types[$product['type']]['name']}}</small>
                                             @else
                                                 <small class="label label-default"><i class="fa fa-clock-o"></i>其他</small>
                                             @endif
@@ -144,7 +135,6 @@
                                 </li>
                             @endforeach
                         @endif
-
                     </ul>
                 </div>
                 <!-- /.box-body -->
@@ -157,9 +147,96 @@
             </div>
         </div>
         {{--</div>--}}
-        <input id="sortData" type="hidden" value="{{json_encode($sort)}}">
-        <input id="paramsData" type="hidden" value="{{$jsonParams}}">
+
         {{ csrf_field() }}
+
+                <!-- 模态框 新增数据/修改数据 -->
+        <div id="infoModal" class="modal " tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h3 class="box-title">新增类型</h3>
+                    </div>
+                    <div class="form-horizontal">
+                        <input type="hidden" id="dataId" value="0" >
+                        <input type="hidden" id="operation" value="" >
+                        <div class="box-body">
+                            <div id="idArea" class="form-group" style="display: none;">
+                                <label class="col-sm-2 control-label">类型ID</label>
+                                <label class="col-sm-1 control-label"></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="name" class="col-sm-2 control-label">类型名称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="name" placeholder="类型名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">语言</label>
+                                <div class="col-sm-10 lang-menu">
+                                    <div>
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" value="zh_cn">简体中文</label>
+                                            <label><input type="checkbox" value="zh_tw">繁体中文</label>
+                                            <label><input type="checkbox" value="en_us">English</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0px;">
+                                <label for="show" class="col-sm-2 control-label">在首页展示</label>
+                                <div class="col-sm-10">
+                                    <div class="form-group">
+                                        <div class="radio col-sm-12">
+                                            <label>
+                                                <input type="radio" name="show" value="1" checked="">
+                                                展示
+                                            </label>
+
+                                            <label style="margin-left: 10px;">
+                                                <input type="radio" name="show" value="0">
+                                                隐藏
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0px;">
+                                <label for="status" class="col-sm-2 control-label">状态</label>
+                                <div class="col-sm-10">
+                                    <div class="form-group">
+                                        <div class="radio col-sm-12">
+                                            <label>
+                                                <input type="radio" name="status" value="1" checked="">
+                                                有效
+                                            </label>
+
+                                            <label style="margin-left: 10px;">
+                                                <input type="radio" name="status" value="0">
+                                                隐藏
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="form-group" style="margin-bottom: 0px;">
+                                <div class="col-sm-8">
+                                    <p id="saveResult" class="text-green"></p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button id="saveData" class="btn btn-info pull-right">保存</button>
+                                    <button class="btn btn-default pull-right" data-dismiss="modal" style="margin-right: 10px;">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- 模态框 删除数据 -->
         <div id="delModal" class="modal fade" tabindex="-1" role="dialog">
@@ -167,11 +244,11 @@
                 <div class="box box-danger">
                     <div class="modal-header with-border">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">删除产品</h4>
+                        <h4 class="modal-title">删除产品类型</h4>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="delId" value="0" >
-                        <p>是否确定要删除该产品？</p>
+                        <p>是否确定要删除该产品类型？</p>
                     </div>
                     <div class="box-footer">
                         <div class="form-group" style="margin-bottom: 0px;">
@@ -193,6 +270,8 @@
 @endsection
 
 @section('js')
+    {{--<script src="{{asset('/plugins/fancybox/jquery.fancybox.js')}}"></script>--}}
     <script src="{{asset('/plugins/JQueryUI/jquery-ui.min.js')}}"></script>
     <script src="{{asset('/js/home/pages/productList.js')}}"></script>
+
 @endsection

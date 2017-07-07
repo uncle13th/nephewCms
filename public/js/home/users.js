@@ -270,7 +270,7 @@ $(function(){
                     $("#delModal .btn-default").attr("disabled", false)
 
                     //设置关闭模态框操作
-                    $('#infoModal').on('hidden.bs.modal', function (e) {
+                    $('#delModal').on('hidden.bs.modal', function (e) {
                         window.location.href = '/home/user/list';
                     })
 

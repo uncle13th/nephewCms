@@ -75,4 +75,84 @@ class ProductController extends Controller
 
         return response()->json(['code' => '200', 'msg' => '']);
     }
+
+    /*
+     * 展示产品列表页面.
+     */
+    public function showListPage(Request $request)
+    {
+        $inputs = $request->input();
+        $type_id = max(0, intval($request->input('type')));
+        $status = max(-1, $request->input('status'));
+        $id = max(0, intval($request->input('id')));
+        $name = trim($request->input('name'));
+
+        $logic = ProductLogic::getInstance();
+        $types = $logic->getProductTypeMenu();
+        $product_list = $logic->getProductList($type_id, $status, $id, $name);
+
+        $params = [];
+        $jsonParams = '';
+        $tmp = [];
+        if(isset($inputs['type'])){
+            $params['type'] = $type_id;
+            $tmp[] = "type=$type_id";
+        }
+        if(isset($inputs['status'])){
+            $params['status'] = $status;
+            $tmp[] = "status=$status";
+        }
+        if(isset($inputs['id'])){
+            $params['id'] = $id;
+            $tmp[] = "id=$id";
+        }
+        if(isset($inputs['name'])){
+            $params['name'] = $name;
+            $tmp[] = "name=$name";
+        }
+
+        if(!empty($tmp)){
+            $jsonParams = '?'.implode('&', $tmp);
+        }
+
+        $data = array(
+            'types' => $types,
+            'type_id' => $type_id,
+            'product_list' => $product_list,
+            'status' => $status,
+            'params' => $params,
+            'jsonParams' => $jsonParams,
+        );
+
+        return view('home.pages.productList', $data);
+    }
+    /*
+     * 删除产品类型
+     */
+    public function deleteProduct(Request $request)
+    {
+        $id = $request->input('id');
+        $logic = ProductLogic::getInstance();
+        $result = $logic->deleteProduct($id);
+        if($result === false){
+            return response()->json(['code' => $logic->errorCode, 'msg' => $logic->errorMessage]);
+        }
+
+        return response()->json(['code' => '200', 'msg' => '']);
+    }
+
+    /*
+     * 保存产品类型排序信息
+     */
+    public function sortProductList(Request $request)
+    {
+        $order = $request->input('order');
+        $logic = ProductLogic::getInstance();
+        $result = $logic->sortProductList($order);
+        if($result === false){
+            return response()->json(['code' => $logic->errorCode, 'msg' => $logic->errorMessage]);
+        }
+
+        return response()->json(['code' => '200', 'msg' => '']);
+    }
 }

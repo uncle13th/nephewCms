@@ -54,6 +54,16 @@ Route::group(['middleware' => 'auth'], function () {
 
     //页面管理--产品列表
     Route::get('/home/product/list', 'Pages\ProductController@showListPage');
+    //页面管理--产品列表--保存产品排序
+    Route::put('/home/product/list', 'Pages\ProductController@sortProductList');
+    //页面管理--产品列表--删除产品
+    Route::delete('/home/product/list', 'Pages\ProductController@deleteProduct');
+    //页面管理--产品列表--打开产品详情页（新增或修改产品信息）
+    Route::get('/home/product/info', 'Pages\ProductController@showInfoPage');
+    //页面管理--产品列表--保存产品信息（新增或修改产品信息）
+    Route::post('/home/product/info', 'Pages\ProductController@saveProduct');
+
+
     //页面管理--关于我们
     Route::get('/home/about', 'Pages\AboutController@showAboutPage');
     //页面管理--联系我们

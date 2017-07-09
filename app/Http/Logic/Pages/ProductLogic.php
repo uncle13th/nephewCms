@@ -38,8 +38,8 @@ class ProductLogic extends BaseLogic
     }
 
     /**
-     * 保存轮播图信息（支持新增和修改轮播图）
-     * @param array $params 轮播图信息数组
+     * 保存产品类型信息（支持新增和修改）
+     * @param array $params 产品类型信息数组
      * @return bool
      */
     public function saveProductType($params){
@@ -219,5 +219,68 @@ class ProductLogic extends BaseLogic
         return true;
     }
 
+    /**
+     * 保存产品信息（支持新增和修改）
+     * @param array $params 产品信息数组
+     * @return bool
+     */
+    public function saveProduct($params){
 
+        if(empty($params) ||  empty($params['name']) || !isset($params['type'])|| !isset($params['status'])
+            || (isset($params['id']) && (!is_numeric($params['id']) || $params['id'] < 1)) || empty($params['lang'])){
+            $this->errorCode = 10001;
+            $this->errorMessage = '参数异常！';
+            return false;
+        }
+
+        $data = array(
+            'name' => trim($params['name']),
+            'type' => intval($params['type']),
+            'lang' => trim($params['lang']),
+            'status' => intval($params['status']),
+            'description' => trim($params['description']),
+            'img' => trim($params['img']),
+            'detail' => trim($params['detail'])
+        );
+
+        $model = ProductListModel::instance();
+        //有上传id
+        if(isset($params['id'])){
+            $data['id'] = intval($params['id']);
+            $result = $model->updateData($data);
+            if(!$result){
+                $this->errorCode = 60008;
+                $this->errorMessage = '产品信息修改失败！';
+                return false;
+            }
+        }else{
+            $result = $model->addData($data);
+            if(!$result){
+                $this->errorCode = 60007;
+                $this->errorMessage = '产品信息添加失败！';
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    public function getProductInfo($id){
+        if(!is_numeric($id) || $id < 1){
+            $this->errorCode = 10001;
+            $this->errorMessage = '参数异常！';
+            return false;
+        }
+
+        $model = ProductListModel::instance();
+        $data = $model->getProductInfo($id);
+        if(!$data){
+            return array();
+        }
+
+        $data['img'] = explode(';', $data['img']);
+        $data['detail'] = explode(';', $data['detail']);
+        return $data;
+    }
 }

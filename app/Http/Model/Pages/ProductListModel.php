@@ -24,9 +24,6 @@ class ProductListModel extends BaseModel
      * @return mixed
      */
     public function getProductList($type_id = 0, $status = -1, $id = 0, $name = ''){
-
-//        echo "type_id: $type_id, status: $status, id: $id, name: $name";exit;
-
         if($status == -1){
             $model = $this->where('status', '!=', -1);
         }else{
@@ -56,29 +53,46 @@ class ProductListModel extends BaseModel
      * @return mixed
      */
     public function getIndexProductList($lang = 'zh_cn'){
-        if(empty($lang)){
-            $lang = 'zh_cn';
-        }
-        $data = $this->where('status', 1)->where('show', 1)->where('lang', 'regexp', $lang)->orderBy('sort', 'asc')->get()->toArray();
-        return $data;
+//        if(empty($lang)){
+//            $lang = 'zh_cn';
+//        }
+//        $data = $this->where('status', 1)->where('show', 1)->where('lang', 'regexp', $lang)->orderBy('sort', 'asc')->get()->toArray();
+//        return $data;
     }
 
+    /**
+     * 获取产品信息
+     * @param int $id 产品id
+     * @return bool
+     */
+    public function getProductInfo($id){
+        if(!is_numeric($id) || $id < 1){
+            return false;
+        }
+
+        $model = $this->where('id', $id)->where('status', '!=', -1)->first();
+        if(is_null($model)){
+            return false;
+        }
+
+        return $model->toArray();
+    }
 
     /**
      * 新增产品类型
-     * @param array $data 产品类型信息数组
+     * @param array $data 产品信息数组
      * @return bool|array
      */
     public function addData($data){
-        if(empty($data) || empty($data['name']) || !isset($data['status']) || !isset($data['show'])|| empty($data['lang'])){
+        if(empty($data) || empty($data['name']) || !isset($data['status']) || !isset($data['type'])|| empty($data['lang'])){
             return false;
         }
 
         //判断名字是否被使用了
-        $num = $this->where('status', '!=', -1)->where('name', $data['name'])->count();
-        if($num > 0){
-            return false;
-        }
+//        $num = $this->where('status', '!=', -1)->where('name', $data['name'])->count();
+//        if($num > 0){
+//            return false;
+//        }
 
         $model = new static($data);
         if(!$model->save()){
@@ -88,20 +102,20 @@ class ProductListModel extends BaseModel
     }
 
     /**
-     * 更新产品类型信息
-     * @param array $data 产品类型信息数组
+     * 更新产品信息
+     * @param array $data 产品信息数组
      * @return bool|array
      */
     public function updateData($data){
         if(empty($data) || !isset($data['id']) || $data['id'] < 1 || empty($data['name']) || !isset($data['status'])
-            || !isset($data['show']) || empty($data['lang'])){
+            || !isset($data['type']) || empty($data['lang'])){
             return false;
         }
 
-        $num = $this->where('status', '!=', -1)->where('id','!=', $data['id'])->where('name', $data['name'])->count();
-        if($num > 0){
-            return false;
-        }
+//        $num = $this->where('status', '!=', -1)->where('id','!=', $data['id'])->where('name', $data['name'])->count();
+//        if($num > 0){
+//            return false;
+//        }
 
         $model = $this->where('id', $data['id'])->where('status', '!=', -1)->first();
         if(is_null($model)){

@@ -155,4 +155,49 @@ class ProductController extends Controller
 
         return response()->json(['code' => '200', 'msg' => '']);
     }
+
+    /*
+     *展示产品详情页
+     */
+    public function showInfoPage(Request $request)
+    {
+        $logic = ProductLogic::getInstance();
+        $inputs = $request->input();
+        if(isset($inputs['id']) && !empty($inputs['id'])){
+            $action = 'edit';
+            $id = intval($inputs['id']);
+
+            $info = $logic->getProductInfo($id);
+        }else{
+            $action = 'add';
+            $id = 0;
+            $info = [];
+        }
+
+        //获取产品类型下拉菜单
+        $types = $logic->getProductTypeMenu();
+
+
+        $data = array(
+            'action' => $action,
+            'id' => $id,
+            'info' => $info,
+            'types' => $types,
+        );
+        return view('home.pages.productInfo', $data);
+    }
+
+    /*
+     * 保存产品信息
+     */
+    public function saveProduct(Request $request){
+        $inputs = $request->input();
+        $logic = ProductLogic::getInstance();
+        $result =$logic->saveProduct($inputs);
+        if($result === false){
+            return response()->json(['code' => $logic->errorCode, 'msg' => $logic->errorMessage]);
+        }
+
+        return response()->json(['code' => '200', 'msg' => '']);
+    }
 }

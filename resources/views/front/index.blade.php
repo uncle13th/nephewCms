@@ -51,325 +51,55 @@
         <h2 class="" data-plugin="appear" data-animate="slide-top" data-repeat="false">电子配件</h2>
         <p class="desc " data-plugin="appear" data-animate="fade" data-repeat="false">我们致力于改善人们使用电子产品的体验</p>
 
-        <div class='' data-plugin="appear" data-animate="fade" data-repeat="false">
+        <div id="typesArea" class='' data-plugin="appear" data-animate="fade" data-repeat="false">
             <div class="swiper-container swiper-navtab swiper-container-horizontal">
             <ul class="nav nav-tabs">
                 @if(!empty($product_types))
                     <?php $i = 1; ?>
                     @foreach($product_types as $product_type)
+                        @if(!empty($product_list[$product_type['id']]))
                 <li @if($i++ == 1) class="active" @endif>
-                    <a href="#indexprolist" title="{{$product_type['name']}}" data-toggle="tab" data-num='8' data-filter="{{$product_type['id']}}"><h3>{{$product_type['name']}}</h3></a>
+                    <a href="#indexprolist" title="{{$product_type['name']}}" data-toggle="tab" data-num='8' data-filter="list_{{$product_type['id']}}"><h3>{{$product_type['name']}}</h3></a>
                 </li>
-
-                {{--<li>--}}
-                    {{--<a href="#indexprolist" title="智能手表" data-toggle="tab" data-filter="list_112"><h3>智能手表</h3></a>--}}
-                {{--</li>--}}
-
-                {{--<li>--}}
-                    {{--<a href="#indexprolist" title="智能眼镜" data-toggle="tab" data-filter="list_113"><h3>智能眼镜</h3></a>--}}
-                {{--</li>--}}
-
-                {{--<li>--}}
-                    {{--<a href="#indexprolist" title="机器人" data-toggle="tab" data-filter="list_114"><h3>机器人</h3></a>--}}
-                {{--</li>--}}
-
-                {{--<li>--}}
-                    {{--<a href="#indexprolist" title="体感车" data-toggle="tab" data-filter="list_118"><h3>体感车</h3></a>--}}
-                {{--</li>--}}
-
-                {{--<li>--}}
-                    {{--<a href="#indexprolist" title="无人机" data-toggle="tab" data-filter="list_119"><h3>无人机</h3></a>--}}
-                {{--</li>--}}
+                        @endif
                     @endforeach
                  @endif
             </ul>
                 <div class="swiper-scrollbar" style="display: none;"><div class="swiper-scrollbar-drag" style="width: 0px;"></div></div>
                 </div>
         </div>
+        @if(!empty($product_list))
+            <?php $j = 0; ?>
         <ul class="blocks-2 blocks-sm-2 blocks-md-4 blocks-xlg-4 no-space" id='indexprolist' data-scale='1'>
-
-            <li data-type="list_112">
+            @foreach($product_list as $type_id=>$list)
+                @if(!empty($list))
+                    <?php  $j++ ?>
+                    @foreach($list as $product)
+            <li data-type="list_{{$type_id}}" @if($j > 1) style="display: none;" @endif >
                 <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
                     <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=48" title="Apple Watch Sport" target='_self'>
-                            <img class="cover-image" src="images/shoubiao.jpg" style='height:300px;' alt="Apple Watch Sport">
+                        <a href="/product/info?id={{$product['id']}}" title="{{$product['name']}}" target='_self'>
+                            <?php
+                                $img = '';
+                                if(!empty($product['img'])) {
+                                    $temp = explode(';', $product['img']);
+                                    $img = $temp[0];
+                                }
+                            ?>
+                            <img class="cover-image" src="{{$img}}" style='height:300px;' alt="{{$product['name']}}">
                         </a>
                     </figure>
                     <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=48" title="Apple Watch Sport" target='_self'>Apple Watch Sport</a>
+                        <a href="/product/info?id={{$product['id']}}" title="{{$product['name']}}" target='_self'>{{$product['name']}}</a>
                         <p class='margin-bottom-0 margin-top-5 red-600'>2288.00元</p>
                     </h4>
                 </div>
             </li>
-
-            <li data-type="list_112">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=26" title="儿童手表" target='_self'>
-                            <img class="cover-image" src="images/shoubiao.jpg" style='height:300px;' alt="儿童手表">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=26" title="儿童手表" target='_self'>儿童手表</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>999.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_112">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=51" title="公子小白" target='_self'>
-                            <img class="cover-image" src="images/shoubiao.jpg" style='height:300px;' alt="公子小白">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=51" title="公子小白" target='_self'>公子小白</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>1880.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_112">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=47" title="Gear VR" target='_self'>
-                            <img class="cover-image" src="images/shoubiao.jpg" style='height:300px;' alt="Gear VR">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=47" title="Gear VR" target='_self'>Gear VR</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>1288.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_113">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=27" title="Gear VR" target='_self'>
-                            <img class="cover-image" src="images/shoubiao.jpg" style='height:300px;' alt="Gear VR">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=27" title="Gear VR" target='_self'>Gear VR</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>1288.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_113">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=56" title="Apple Watch Sport" target='_self'>
-                            <img class="cover-image" src="images/shoubiao.jpg" style='height:300px;' alt="Apple Watch Sport">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=56" title="Apple Watch Sport" target='_self'>Apple Watch Sport</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>2288.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_113">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=28" title="Pico Neo" target='_self'>
-                            <img class="cover-image" src="images/shoubiao.jpg" style='height:300px;' alt="Pico Neo">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=28" title="Pico Neo" target='_self'>Pico Neo</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>3399.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_113">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=52" title="ALPHA 2" target='_self'>
-                            <img class="cover-image" src="images/shoubiao.jpg" style='height:300px;' alt="ALPHA 2">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=52" title="ALPHA 2" target='_self'>ALPHA 2</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>7999.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_114" style="display:none;">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=29" title="ALPHA 2" target='_self'>
-                            <img class="cover-image" src="images/shoubiao.jpg" style='height:300px;' alt="ALPHA 2">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=29" title="ALPHA 2" target='_self'>ALPHA 2</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>7999.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_114" style="display:none;">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=39" title="Gear VR" target='_self'>
-                            <img class="cover-image" data-original="include/thumb.php?dir=upload/201605/1463987967.jpg&x=400&y=400" style='height:300px;' alt="Gear VR">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=39" title="Gear VR" target='_self'>Gear VR</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>1288.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_114" style="display:none;">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=37" title="儿童手表" target='_self'>
-                            <img class="cover-image" data-original="include/thumb.php?dir=upload/201605/1463972218.jpg&x=400&y=400" style='height:300px;' alt="儿童手表">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=37" title="儿童手表" target='_self'>儿童手表</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>999.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_114" style="display:none;">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=36" title="ALPHA 2" target='_self'>
-                            <img class="cover-image" data-original="include/thumb.php?dir=upload/201605/1463990444.jpg&x=400&y=400" style='height:300px;' alt="ALPHA 2">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=36" title="ALPHA 2" target='_self'>ALPHA 2</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>7999.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_118" style="display:none;">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=31" title="九号平衡车" target='_self'>
-                            <img class="cover-image" data-original="include/thumb.php?dir=upload/201605/1463993502.jpg&x=400&y=400" style='height:300px;' alt="九号平衡车">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=31" title="九号平衡车" target='_self'>九号平衡车</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>1999.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_118" style="display:none;">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=30" title="公子小白" target='_self'>
-                            <img class="cover-image" data-original="include/thumb.php?dir=upload/201605/1463992341.jpg&x=400&y=400" style='height:300px;' alt="公子小白">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=30" title="公子小白" target='_self'>公子小白</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>1880.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_118" style="display:none;">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=40" title="Apple Watch Sport" target='_self'>
-                            <img class="cover-image" data-original="include/thumb.php?dir=upload/201605/1463968649.jpg&x=400&y=400" style='height:300px;' alt="Apple Watch Sport">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=40" title="Apple Watch Sport" target='_self'>Apple Watch Sport</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>2288.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_118" style="display:none;">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=38" title="Pico Neo" target='_self'>
-                            <img class="cover-image" data-original="include/thumb.php?dir=upload/201605/1463989303.jpg&x=400&y=400" style='height:300px;' alt="Pico Neo">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=38" title="Pico Neo" target='_self'>Pico Neo</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>3399.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_119" style="display:none;">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=32" title="Phantom 4" target='_self'>
-                            <img class="cover-image" data-original="include/thumb.php?dir=upload/201605/1463993829.png&x=400&y=400" style='height:300px;' alt="Phantom 4">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=32" title="Phantom 4" target='_self'>Phantom 4</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>9999.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_119" style="display:none;">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=49" title="Phantom 4" target='_self'>
-                            <img class="cover-image" data-original="include/thumb.php?dir=upload/201605/1463993829.png&x=400&y=400" style='height:300px;' alt="Phantom 4">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=49" title="Phantom 4" target='_self'>Phantom 4</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>9999.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_119" style="display:none;">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=43" title="公子小白" target='_self'>
-                            <img class="cover-image" data-original="include/thumb.php?dir=upload/201605/1463992341.jpg&x=400&y=400" style='height:300px;' alt="公子小白">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=43" title="公子小白" target='_self'>公子小白</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>1880.00元</p>
-                    </h4>
-                </div>
-            </li>
-
-            <li data-type="list_119" style="display:none;">
-                <div class="widget widget-shadow " data-plugin="appear" data-animate="slide-bottom50" data-repeat="false">
-                    <figure class="widget-header cover">
-                        <a href="product/showproduct.php?lang=cn&id=54" title="Pico Neo" target='_self'>
-                            <img class="cover-image" data-original="include/thumb.php?dir=upload/201605/1463989303.jpg&x=400&y=400" style='height:300px;' alt="Pico Neo">
-                        </a>
-                    </figure>
-                    <h4 class="widget-title">
-                        <a href="product/showproduct.php?lang=cn&id=54" title="Pico Neo" target='_self'>Pico Neo</a>
-                        <p class='margin-bottom-0 margin-top-5 red-600'>3399.00元</p>
-                    </h4>
-                </div>
-            </li>
-
+                    @endforeach
+                @endif
+            @endforeach
         </ul>
-
+        @endif
     </div>
 </div>
 

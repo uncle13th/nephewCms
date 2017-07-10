@@ -8,7 +8,7 @@ use App\Http\Logic\Pages\ProductLogic;
 use App\Http\Logic\System\FrontMenuLogic;
 use Illuminate\Http\Request;
 
-class IndexController extends Controller
+class ProductController extends Controller
 {
 
     public function __construct()
@@ -16,10 +16,12 @@ class IndexController extends Controller
     }
 
     /*
-     * 展示首页页面内容
+     * 展示列表页
      */
-    public function show(Request $request)
+    public function showList(Request $request)
     {
+        $type = max(0, intval($request->input('type')));
+
         //获取语言
         $lang = $this->getFrontLanguage($request);
 
@@ -31,34 +33,25 @@ class IndexController extends Controller
         //获取网站支持的语言列表
         $system_lang = config('app.system_lang');
 
-        //获取首页配置信息
 
-
-
-
-        //获取轮播图信息
-        $indexLogic = IndexLogic::getInstance();
-        $banners = $indexLogic->getIndexBanners($lang);
-
-        //获取首页展示的产品类型
+        //获取产品类型
         $productLogic = ProductLogic::getInstance();
-        $product_types = $productLogic->getIndexProductTypes($lang);
-//print_r($product_types);exit;
-        //获取首页展示的产品
-        $limit_num = 12;
-        $product_list = $productLogic->getIndexProductList($product_types, $lang, $limit_num);
-//        print_r($product_list[0]);exit;
-//exit;
+        $product_types = $productLogic->getAvailableProductTypes($lang);
+//print_r($product_types);//exit;
+
+        //获取展示的产品
+        $product_list = $productLogic->getAvailableProductList($type, $lang);
+
         $data = array(
             'lang' => $lang,
             'header_menu' => $header_menus,
             'footer_menus' => $footer_menus,
             'system_lang' => $system_lang,
-            'banners' => $banners,
+            'type' => $type,
             'product_types' => $product_types,
             'product_list' => $product_list,
         );
-        return view('front.index', $data);
+        return view('front.list', $data);
     }
 
 

@@ -128,9 +128,7 @@ Route::get('/about', function(){
     return view('front.about');
 });
 
-Route::get('/product/list', function(){
-    return view('front.list');
-});
+Route::get('/product/list', 'Front\ProductController@showList');
 
 Route::get('/product', function(){
     return view('front.product');

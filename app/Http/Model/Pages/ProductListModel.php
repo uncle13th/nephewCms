@@ -48,16 +48,23 @@ class ProductListModel extends BaseModel
     }
 
     /**
-     * 获取可以在首页展示的产品列表
+     * 获取可以在首页展示的产品（根据网站的语言获取不同的产品类型信息）
+     * @param int $product_type 产品类型id
      * @param string $lang 语言
-     * @return mixed
+     * @param int $limit_num 展示的条数
+     * @return array
      */
-    public function getIndexProductList($lang = 'zh_cn'){
-//        if(empty($lang)){
-//            $lang = 'zh_cn';
-//        }
-//        $data = $this->where('status', 1)->where('show', 1)->where('lang', 'regexp', $lang)->orderBy('sort', 'asc')->get()->toArray();
-//        return $data;
+    public function getIndexProductList($product_type, $lang = 'zh_cn', $limit_num = 8){
+        if(empty($lang)){
+            $lang = 'zh_cn';
+        }
+        if($product_type == 0){
+            $data = $this->where('status', 1)->where('lang', 'regexp', $lang)->orderBy('sort', 'asc')->limit($limit_num)->get()->toArray();
+        }else{
+            $data = $this->where('status', 1)->where('type', $product_type)->where('lang', 'regexp', $lang)->orderBy('sort', 'asc')->limit($limit_num)->get()->toArray();
+        }
+
+        return $data;
     }
 
     /**
@@ -169,5 +176,39 @@ class ProductListModel extends BaseModel
 
         DB::commit();
         return true;
+    }
+
+    /**
+     * 根据产品类型和语言，获取产品的数量
+     * @param int $type_id 产品类型ID
+     * @param string $lang 语言
+     * @return int
+     */
+    public function getProductCount($type_id = 0, $lang = 'zh_cn'){
+        if(empty($lang)){
+            $lang = 'zh_cn';
+        }
+
+        if($type_id == 0){
+            $num = $this->where('status', 1)->where('lang', 'regexp', $lang)->count();
+        }else{
+            $num = $this->where('status', 1)->where('type', $type_id)->where('lang', 'regexp', $lang)->count();
+        }
+
+        return $num;
+    }
+
+    public function getAvailableProductList($type_id, $lang, $per_page = 16){
+        if(empty($lang)){
+            $lang = 'zh_cn';
+        }
+
+        if($type_id == 0){
+            $model = $this->where('status', 1)->where('lang', 'regexp', $lang)->paginate($per_page);
+        }else{
+            $model = $this->where('status', 1)->where('type', $type_id)->where('lang', 'regexp', $lang)->paginate($per_page);
+        }
+
+        return $model;
     }
 }

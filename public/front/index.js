@@ -56,4 +56,17 @@ jQuery(document).ready(function ($) {
     $(window).bind("resize", ScaleSlider);
     $(window).bind("orientationchange", ScaleSlider);
     //responsive code end
+
+    $("#typesArea li").on('click', function(){
+        var dataId = $(this).find("a").attr('data-filter');
+
+        //隐藏产品
+        $(".blocks-2  li").css('display','none');
+        //展示产品
+        $(".blocks-2 li[data-type='"+dataId+"']").css('display','block');
+    })
+
+
+
+
 });

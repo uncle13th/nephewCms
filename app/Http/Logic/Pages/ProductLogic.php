@@ -265,7 +265,11 @@ class ProductLogic extends BaseLogic
         return true;
     }
 
-
+    /**
+     * 获取产品信息
+     * @param int $id 产品id
+     * @return array|bool
+     */
     public function getProductInfo($id){
         if(!is_numeric($id) || $id < 1){
             $this->errorCode = 10001;
@@ -282,5 +286,84 @@ class ProductLogic extends BaseLogic
         $data['img'] = explode(';', $data['img']);
         $data['detail'] = explode(';', $data['detail']);
         return $data;
+    }
+
+    /**
+     * 获取可以在首页展示的产品（根据网站的语言获取不同的产品类型信息）
+     * @param array $product_types 产品类型信息数组
+     * @param string $lang 语言
+     * @param int $limit_num 展示的条数
+     * @return array
+     */
+    public function getIndexProductList($product_types = [], $lang = 'zh_cn', $limit_num = 8){
+        if(empty($product_types) || $limit_num < 1){
+            return array();
+        }
+        if(empty($lang)){
+            $lang = 'zh_cn';
+        }
+
+        $model = ProductListModel::instance();
+        $result = [];
+        foreach($product_types as $type){
+            $data = $model->getIndexProductList($type['id'], $lang, $limit_num);
+            if(!$data){
+                $result[$type['id']] = [];
+            }
+            $len = count($data);
+            if($len == $limit_num || ($len % 4 == 0)){
+                $result[$type['id']] = $data;
+            }
+            //不够limit_num条数据，且补位4的倍数，去掉多余的,保留4的倍数。如果总数是小于4那就有多少显示多少。
+            if($len < 4){
+                $result[$type['id']] = $data;
+            }else{
+                $num = (int)($len / 4) * 4;
+                $temp = array_splice($data, 0 , $num);
+                $result[$type['id']] = $temp;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * 获取可以在首页展示的产品类型（根据网站的语言获取不同的产品类型信息）
+     * @param string $lang 语言
+     * @return array
+     */
+    public function getAvailableProductTypes($lang = 'zh_cn'){
+        if(empty($lang)){
+            $lang = 'zh_cn';
+        }
+        $model = ProductTypeModel::instance();
+        $types = $model->getIndexProductTypes($lang);
+        if(!$types){
+            return array();
+        }
+
+        $listModel = ProductListModel::instance();
+        $result = [];
+        foreach($types as $type){
+            $num = $listModel->getProductCount($type['id'], $lang);
+            if($num > 0){
+                $result[] = array(
+                    'total' => $num,
+                    'id' => $type['id'],
+                    'name' => $type['name'],
+                );
+            }
+        }
+
+        return $result;
+    }
+
+    public function getAvailableProductList($type, $lang = 'zh_cn'){
+        if(empty($lang)){
+            $lang = 'zh_cn';
+        }
+
+        $model = ProductListModel::instance();
+        return $model->getAvailableProductList($type, $lang);
     }
 }

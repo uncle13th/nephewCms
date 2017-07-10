@@ -41,7 +41,16 @@ class UserController extends Controller
         $roles = $roleLogic->getAllRoles();
         $menus = [];
 //print_r($roles);exit;
-        return view('home.user', ['users'=>$data, 'roles'=>$roles, 'menus'=>$menus]);
+        $pageIndex = 2001;  //页面索引，管理后台左侧菜单使用
+
+        $data = array(
+            'users' => $data,
+            'roles' => $roles,
+            'menus' => $menus,
+            'pageIndex' => $pageIndex,
+        );
+
+        return view('home.user', $data);
     }
 
     /*

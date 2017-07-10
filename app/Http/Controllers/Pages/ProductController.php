@@ -26,8 +26,12 @@ class ProductController extends Controller
         $logic = ProductLogic::getInstance();
         $types = $logic->getAllProductTypes();
 
+
+        $pageIndex = 1002;  //页面索引，管理后台左侧菜单使用
+
         $data = array(
             'types' => $types,
+            'pageIndex' => $pageIndex,
         );
         return view('home.pages.productType', $data);
     }
@@ -115,6 +119,8 @@ class ProductController extends Controller
             $jsonParams = '?'.implode('&', $tmp);
         }
 
+        $pageIndex = 1003;  //页面索引，管理后台左侧菜单使用
+
         $data = array(
             'types' => $types,
             'type_id' => $type_id,
@@ -122,6 +128,7 @@ class ProductController extends Controller
             'status' => $status,
             'params' => $params,
             'jsonParams' => $jsonParams,
+            'pageIndex' => $pageIndex,
         );
 
         return view('home.pages.productList', $data);
@@ -177,12 +184,13 @@ class ProductController extends Controller
         //获取产品类型下拉菜单
         $types = $logic->getProductTypeMenu();
 
-
+        $pageIndex = 1003;  //页面索引，管理后台左侧菜单使用
         $data = array(
             'action' => $action,
             'id' => $id,
             'info' => $info,
             'types' => $types,
+            'pageIndex' => $pageIndex,
         );
         return view('home.pages.productInfo', $data);
     }

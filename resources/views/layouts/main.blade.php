@@ -69,41 +69,41 @@
   <aside class="main-sidebar">
     <section class="sidebar">
       <ul class="sidebar-menu">
-        <li class="treeview">
+        <li @if($pageIndex > 1000 && $pageIndex < 1006) class="treeview active"  @else class="treeview"  @endif>
           <a href="#"><i class="fa fa-link"></i> <span>页面管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/home/index"><i class="fa fa-circle-o"></i>首页管理</a></li>
-            <li><a href="/home/product/type"><i class="fa fa-circle-o"></i>产品类型管理</a></li>
-            <li><a href="/home/product/list"><i class="fa fa-circle-o"></i>产品列表</a></li>
-            <li><a href="/home/aobut"><i class="fa fa-circle-o"></i>关于我们</a></li>
-            <li><a href="/home/connect"><i class="fa fa-circle-o"></i>联系我们</a></li>
+            <li @if($pageIndex == 1001) class="active" @endif ><a href="/home/index"><i class="fa fa-circle-o"></i>首页管理</a></li>
+            <li @if($pageIndex == 1002) class="active" @endif ><a href="/home/product/type"><i class="fa fa-circle-o"></i>产品类型管理</a></li>
+            <li @if($pageIndex == 1003) class="active" @endif ><a href="/home/product/list"><i class="fa fa-circle-o"></i>产品列表</a></li>
+            <li @if($pageIndex == 1004) class="active" @endif ><a href="/home/aobut"><i class="fa fa-circle-o"></i>关于我们</a></li>
+            <li @if($pageIndex == 1005) class="active" @endif ><a href="/home/connect"><i class="fa fa-circle-o"></i>联系我们</a></li>
           </ul>
         </li>
-        <li class="treeview active">
+        <li  @if($pageIndex > 2000 && $pageIndex < 2003) class="treeview active"  @else class="treeview"  @endif>
           <a href="#"><i class="fa fa-users"></i> <span>用户权限管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/home/user/list"><i class="fa fa-fw fa-user"></i>用户管理</a></li>
-            <li class="active"><a href="/home/role/list"><i class="fa fa-fw fa-paw"></i>角色管理</a></li>
+            <li @if($pageIndex == 2001) class="active" @endif ><a href="/home/user/list"><i class="fa fa-fw fa-user"></i>用户管理</a></li>
+            <li @if($pageIndex == 2002) class="active" @endif ><a href="/home/role/list"><i class="fa fa-fw fa-paw"></i>角色管理</a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <li @if($pageIndex > 3000 && $pageIndex < 3004) class="treeview active"  @else class="treeview"  @endif>
           <a href="#"><i class="fa fa-link"></i> <span>系统管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/home/front_menu"><i class="fa fa-circle-o"></i>导航菜单管理</a></li>
-            <li><a href="/home/file"><i class="fa fa-circle-o"></i>文件上传管理</a></li>
-            <li><a href="/home/config"><i class="fa fa-circle-o"></i>配置管理</a></li>
+            <li @if($pageIndex == 3001) class="active" @endif ><a href="/home/front_menu"><i class="fa fa-circle-o"></i>导航菜单管理</a></li>
+            <li @if($pageIndex == 3002) class="active" @endif ><a href="/home/file"><i class="fa fa-circle-o"></i>文件上传管理</a></li>
+            <li @if($pageIndex == 3003) class="active" @endif ><a href="/home/config"><i class="fa fa-circle-o"></i>配置管理</a></li>
           </ul>
         </li>
       </ul>

@@ -61,7 +61,9 @@
                                 <select class="form-control" id="product_type">
                                     @if(!empty($types))
                                         @foreach($types as $key => $value)
+                                            @if($key > 0)
                                             <option value="{{$key}}" @if($action == 'edit' && $key == $info['type']) selected @endif >{{$value}}</option>
+                                            @endif
                                         @endforeach
                                     @endif
                                 </select>

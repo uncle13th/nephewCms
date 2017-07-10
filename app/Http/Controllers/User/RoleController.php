@@ -33,7 +33,15 @@ class RoleController extends Controller
 
         $menuLoigc = MenuLogic::getInstance();
         $menus = $menuLoigc->getAvaliableList();
-        return view('home.role', ['roles'=>$data, 'menus'=>$menus]);
+
+        $pageIndex = 2001;  //页面索引，管理后台左侧菜单使用
+
+        $data = array(
+            'roles' => $data,
+            'menus' => $menus,
+            'pageIndex' => $pageIndex,
+        );
+        return view('home.role', $data);
     }
 
     /*

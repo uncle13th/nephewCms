@@ -33,24 +33,20 @@ class IndexController extends Controller
         $logic = IndexLogic::getInstance();
         //1.获取轮播图
         $banners = $logic->getAllBanners();
-//        print_r($banners);exit;
-        //2.获取产品类型
-//        $product_types = $logic->getAllProductTypes();
-//        print_r($product_types);exit;
-        //3.获取产品列表
-//        $product_list = $logic->getProductList();
-//        print_r($product_list);exit;
 
         //2.获取配置信息
         $index_config = $logic->getIndexConfig();
         $banner_num = $index_config['banner_num'];
         $index_product_num = $index_config['product_num'];
 
+        $pageIndex = 1001;  //页面索引，管理后台左侧菜单使用
+
         $data = array(
             'menu_type' => $menu_type,
             'banners' => $banners,
             'banner_num' => $banner_num,
             'index_product_num' => $index_product_num,
+            'pageIndex' => $pageIndex,
         );
         return view('home.pages.index', $data);
     }

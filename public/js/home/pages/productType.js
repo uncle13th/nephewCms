@@ -8,11 +8,6 @@ $(function(){
 
         //设置可以拖拽排序
         setSortable();
-        //初始化查询条件
-        setSearchOption();
-
-        //设置搜索事件处理
-        $("#search").on('click', search);
 
         //添加数据
         $("#addData").on('click', showAddModal);
@@ -52,23 +47,6 @@ $(function(){
         $(".box-primary .box-footer .btn-danger").on('click', function(){
             cancelSortData();
         })
-
-        ////选择图片
-        //$('.iframe-btn').fancybox({
-        //    'type'		: 'iframe',
-        //    'autoSize'  : false,
-        //    beforeLoad : function() {
-        //        this.width  = 900;
-        //        this.height = 600;
-        //    },
-        //    afterClose: function() {
-        //        $('.img_src').each(function() {
-        //            $('#'+$(this).attr('id').replace('source', 'image')).attr("src", $(this).val());
-        //        });
-        //        //因为图片选择器关闭时会把模态框一并关闭，所以这里再次打开
-        //        $('#infoModal').modal({'backdrop' : false});
-        //    }
-        //});
     }
 
     //设置可以拖拽排序
@@ -89,25 +67,6 @@ $(function(){
             forcePlaceholderSize: true,
             zIndex: 999999
         });
-    }
-
-    //初始化查询条件
-    function setSearchOption(){
-        $("#searchArea ul li ").click(function(){
-            $("#searchArea button").html($(this).text()+'<span class="fa fa-caret-down"></span>');
-            $("#searchArea button").attr('k', $(this).attr('k'));
-        });
-    }
-
-    //查找数据
-    function search(){
-        var keyword = $("#keyword").val();
-        if($.trim(keyword) == ''){
-            return false;
-        }
-        var key = $("#searchArea button").attr('k');
-        var url = 'home/product/type?' + key + "=" + keyword;
-        window.location.href = url;
     }
 
     //打开添加数据弹窗

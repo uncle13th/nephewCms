@@ -33,7 +33,15 @@ class FrontMenuController extends Controller
         $header_menus = $logic->getFrontMenus(1);
         $footer_menus = $logic->getFrontMenus(2);
 
-        return view('home.menu', ['menu_type'=>$menu_type, 'h_menus'=>$header_menus, 'f_menus'=>$footer_menus]);
+        $pageIndex = 3001;  //页面索引，管理后台左侧菜单使用
+        $data = array(
+            'menu_type' => $menu_type,
+            'h_menus' => $header_menus,
+            'f_menus' => $footer_menus,
+            'pageIndex' => $pageIndex,
+        );
+
+        return view('home.menu', $data);
     }
 
     /*

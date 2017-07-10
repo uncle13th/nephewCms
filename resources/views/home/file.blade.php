@@ -1,3 +1,4 @@
+<?php $pageIndex = 3002; ?>
 @extends('layouts.main')
 
 @section('location')

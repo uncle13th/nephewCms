@@ -1,7 +1,4 @@
 @extends('layouts.main')
-{{--@section('css')--}}
-    {{--<link rel="stylesheet" href="{{asset('/plugins/fancybox/jquery.fancybox.css')}}" type="text/css" media="screen" />--}}
-{{--@endsection--}}
 
 @section('location')
     <section class="content-header">
@@ -28,22 +25,7 @@
                     <div class="box-header">
                         <i class="ion ion-clipboard"></i>
                         <h3 class="box-title">产品类型列表</h3>
-                        <div class="box-tools pull-right">
-                            <div class="input-group input-group-sm" style="width: 250px;">
-                                <div id="searchArea" class="input-group-btn">
-                                    <button type="button" class="btn btn-warning dropdown-toggle" style="width: 100px;" data-toggle="dropdown" aria-expanded="false" k="id">类型ID
-                                        <span class="fa fa-caret-down"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li k="id"><a>类型ID</a></li>
-                                        <li k="name"><a>类型名称</a></li>
-                                    </ul>
-                                </div>
-                                <input id="keyword" type="text" class="form-control" placeholder="请输入id或名称" >
-                                <div class="input-group-btn">
-                                    <button id="search" type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">

@@ -33,7 +33,11 @@ class ConnectModel extends BaseModel
         if(empty($lang)){
             $lang = 'zh_cn';
         }
-        $data = $this->where('status', 1)->where('show', 1)->where('lang', 'regexp', $lang)->orderBy('sort', 'asc')->get()->toArray();
+        $model = $this->where('status', 1)->where('lang', 'regexp', $lang)->orderBy('sort', 'asc')->first();
+        if(is_null($model)){
+            return false;
+        }
+        $data = $model->toArray();
         return $data;
     }
 

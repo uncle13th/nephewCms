@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Http\Logic\Pages\AboutLogic;
 use App\Http\Logic\Pages\IndexLogic;
 use App\Http\Logic\Pages\ProductLogic;
 use App\Http\Logic\System\FrontMenuLogic;
@@ -43,12 +44,15 @@ class IndexController extends Controller
         //获取首页展示的产品类型
         $productLogic = ProductLogic::getInstance();
         $product_types = $productLogic->getIndexProductTypes($lang);
-//print_r($product_types);exit;
+
         //获取首页展示的产品
         $limit_num = 12;
         $product_list = $productLogic->getIndexProductList($product_types, $lang, $limit_num);
-//        print_r($product_list[0]);exit;
-//exit;
+
+        //获取关于我们区域的内容
+        $aboutLogic = AboutLogic::getInstance();
+        $about_content = $aboutLogic->getAboutContent($lang);
+
         $data = array(
             'lang' => $lang,
             'header_menu' => $header_menus,
@@ -57,6 +61,7 @@ class IndexController extends Controller
             'banners' => $banners,
             'product_types' => $product_types,
             'product_list' => $product_list,
+            'about_content' => $about_content,
         );
         return view('front.index', $data);
     }

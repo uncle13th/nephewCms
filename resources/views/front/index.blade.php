@@ -111,9 +111,14 @@
         <p class="desc" data-plugin="appear" data-animate="fade" data-repeat="false">我们致力于让科技改善人们的生活</p>
         <div class="met-editor no-gallery lazyload clearfix" data-plugin="appear" data-animate="slide-bottom10" data-repeat="false">
             <p>
-                <img class="" height="200" data-original="http://show.metinfo.cn/muban/res013/323/upload/201605/1464245734139534.jpg" title="1464245734139534.jpg" alt="56f8e7bf65a3f.jpg" src="http://show.metinfo.cn/muban/res013/323/upload/201605/1464245734139534.jpg" style="display: inline;">
+                <img class="" height="200" data-original="{{$about_content['img']}}" title="1464245734139534.jpg" alt="关于我们" src="{{$about_content['img']}}" style="display: inline;">
             </p>
-            <hr/><p>某科技公司是一个诞生于2013年机器人浪潮来袭前际，总部位于“硬件之都”中国深圳。</p><p>我们是一群热衷于智能机器人的极客、设计师和发烧友，对未来充满无限创想、野心和激情。“在最好的时光里，撒野去”是我们所倡导的品牌文化，号召属于这个时代的年轻人，不羁束缚、随心逐梦！</p><p>比普通创客幸运一些的是，我们成立之初，就在语义技术、图数据管理和供应链方面拥有比较丰富的经验和积累，并且、汇聚整合了完善的生产链条和多元的渠道资源，我们愿意拥抱大胆有趣的产品理念，为用户创造更多的惊喜！</p>
+            <hr/>
+            @if(!empty($about_content['content']))
+                @foreach($about_content['content'] as $content)
+            <p>{{$content}}</p>
+                @endforeach
+            @endif
         </div>
     </div>
 </div>

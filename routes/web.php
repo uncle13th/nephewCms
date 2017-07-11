@@ -137,9 +137,8 @@ Route::group(['middleware' => 'auth', 'prefix' => '/home'], function () {
 Route::get('/', 'Front\IndexController@show');
 
 
-Route::get('/about', function(){
-    return view('front.about');
-});
+Route::get('/about', 'Front\AboutController@showAbout');
+Route::get('/connect', 'Front\AboutController@showConnect');
 
 Route::get('/product/list', 'Front\ProductController@showList');
 

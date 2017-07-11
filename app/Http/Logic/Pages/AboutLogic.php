@@ -29,12 +29,22 @@ class AboutLogic extends BaseLogic
         if(empty($lang)){
             $lang = 'zh_cn';
         }
-        $model = ProductTypeModel::instance();
-        $data = $model->getIndexProductTypes($lang);
+        $model = AboutModel::instance();
+        $data = $model->getAboutContent($lang);
         if(!$data){
             return array();
         }
-        return $data;
+
+        $content = [];
+        if(!empty($data['description'])){
+            $content = explode("\n", $data['description']);
+        }
+
+        $result = array(
+            'img' => $data['img'],
+            'content' => $content,
+        );
+        return $result;
     }
 
     /**
@@ -157,7 +167,17 @@ class AboutLogic extends BaseLogic
         if(!$data){
             return array();
         }
-        return $data;
+
+        $content = [];
+        if(!empty($data['description'])){
+            $content = explode("\n", $data['description']);
+        }
+
+        $result = array(
+            'img' => $data['img'],
+            'content' => $content,
+        );
+        return $result;
     }
 
     /**

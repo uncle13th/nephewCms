@@ -130,9 +130,7 @@ Route::get('/about', function(){
 
 Route::get('/product/list', 'Front\ProductController@showList');
 
-Route::get('/product', function(){
-    return view('front.product');
-});
+Route::get('/product/info', 'Front\ProductController@showInfo');
 
 //Route::group(['prefix' => '/product'], function () {
 //

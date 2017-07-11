@@ -21,6 +21,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home.index');
+        $data = array(
+            'pageIndex' => 1000,
+        );
+        return view('home.index', $data);
     }
 }

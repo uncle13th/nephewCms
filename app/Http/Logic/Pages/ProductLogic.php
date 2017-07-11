@@ -358,6 +358,12 @@ class ProductLogic extends BaseLogic
         return $result;
     }
 
+    /**
+     * 获取可以在前端网站展示的产品列表
+     * @param int $type 产品类型id
+     * @param string $lang 语言
+     * @return mixed
+     */
     public function getAvailableProductList($type, $lang = 'zh_cn'){
         if(empty($lang)){
             $lang = 'zh_cn';
@@ -365,5 +371,28 @@ class ProductLogic extends BaseLogic
 
         $model = ProductListModel::instance();
         return $model->getAvailableProductList($type, $lang);
+    }
+
+    /**
+     * 获取产品信息(允许在前端网站展示的产品信息)
+     * @param int $id 产品id
+     * @return array|bool
+     */
+    public function getAvailableProductInfo($id){
+        if(!is_numeric($id) || $id < 1){
+            $this->errorCode = 10001;
+            $this->errorMessage = '参数异常！';
+            return false;
+        }
+
+        $model = ProductListModel::instance();
+        $data = $model->getAvailableProductInfo($id);
+        if(!$data){
+            return array();
+        }
+
+        $data['img'] = explode(';', $data['img']);
+        $data['detail'] = explode(';', $data['detail']);
+        return $data;
     }
 }

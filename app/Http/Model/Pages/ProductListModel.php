@@ -198,7 +198,14 @@ class ProductListModel extends BaseModel
         return $num;
     }
 
-    public function getAvailableProductList($type_id, $lang, $per_page = 16){
+    /**
+     * 获取可以在前端网站展示的产品列表
+     * @param int $type_id 产品类型id
+     * @param string $lang 语言
+     * @param int $per_page 每页展示的数据条数
+     * @return mixed
+     */
+    public function getAvailableProductList($type_id, $lang = 'zh_cn', $per_page = 16){
         if(empty($lang)){
             $lang = 'zh_cn';
         }
@@ -210,5 +217,23 @@ class ProductListModel extends BaseModel
         }
 
         return $model;
+    }
+
+    /**
+     * 获取产品信息(允许在前端网站展示的产品信息)
+     * @param int $id 产品id
+     * @return bool
+     */
+    public function getAvailableProductInfo($id){
+        if(!is_numeric($id) || $id < 1){
+            return false;
+        }
+
+        $model = $this->where('id', $id)->where('status', 1)->first();
+        if(is_null($model)){
+            return false;
+        }
+
+        return $model->toArray();
     }
 }

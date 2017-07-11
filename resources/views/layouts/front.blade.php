@@ -17,6 +17,7 @@
     <![endif]-->
     <link rel="stylesheet" href="{{url('plugins/bootstrap-carousel/css/carousel.css')}}">
     <link rel="stylesheet" href="{{url('front/met.css')}}">
+    @yield('css')
 </head>
 <body>
 <nav class="navbar navbar-default  met-nav" role="navigation">

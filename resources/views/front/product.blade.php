@@ -1,5 +1,9 @@
 @extends('layouts.front')
 
+@section('css')
+    <link rel="stylesheet" href="{{asset('/plugins/pic_tab/pic_tab.css')}}" type="text/css"/>
+@endsection
+
 @section('content')
 
     <div class="met-position  pattern-show">
@@ -7,46 +11,31 @@
             <div class="row">
                 <ol class="breadcrumb">
                     <li>
-                        <a href="http://show.metinfo.cn/muban/res013/323/" title="首页">
+                        <a href="/" title="首页">
                             <i class="icon wb-home" aria-hidden="true"></i>首页
                         </a>
                     </li>
                     <li class="dropdown">
-
-                        <a href="../product/"
+                        <a href="/product/list"
                            title="产品"
                            class="dropdown-toggle"
                            data-toggle="dropdown"
                            aria-expanded="false"
                         >产品 <i class="caret"></i></a>
                         <ul class="dropdown-menu animate">
-
-                            <li><a href="../product/"  title="全部">全部</a></li>
-
-
-                            <li><a href="../product/product.php?lang=cn&class2=112" title="智能手表">智能手表</a></li>
-
-                            <li><a href="../product/product.php?lang=cn&class2=113" title="智能眼镜">智能眼镜</a></li>
-
-                            <li><a href="../product/product.php?lang=cn&class2=114" title="机器人">机器人</a></li>
-
-                            <li><a href="../product/product.php?lang=cn&class2=118" title="体感车">体感车</a></li>
-
-                            <li><a href="../product/product.php?lang=cn&class2=119" title="无人机">无人机</a></li>
-
+                            @if(!empty($product_types))
+                                @foreach($product_types as $type)
+                            <li><a href="/product/list?type={{$type['id']}}"  title="{{$type['name']}}">{{$type['name']}}</a></li>
+                                @endforeach
+                            @endif
                         </ul>
-
                     </li>
 
                     <li class="dropdown">
-
-                        <a href="../product/product.php?lang=cn&class2=112" title="智能手表">
-                            智能手表
+                        <a href="/product/list?type={{$product_type}}" title="{{$type_name}}">
+                            {{$type_name}}
                         </a>
-
                     </li>
-
-
                 </ol>
             </div>
         </div>
@@ -58,52 +47,77 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-7">
-                        <div class='met-showproduct-list fnGallery text-center slick-dotted' id="met-imgs-carousel">
-                            <div class='slick-slide lg-item-box' data-src="../upload/201605/1463968649.jpg" data-exthumbimage="../include/thumb.php?dir=../upload/201605/1463968649.jpg&x=400&y=400">
-                            <span>
-                                <img src="../include/thumb.php?dir=../upload/201605/1463968649.jpg&x=400&y=400" class="img-responsive" alt="Apple Watch Sport" />
-                            </span>
+                        <div class="ban" id="demo1" style="margin-top: 0px;">
+                            <div class="ban2" id="ban_pic1">
+                                <div class="prev1" id="prev1"><img src="/plugins/pic_tab/index_tab_l.png" width="28" height="51"  alt=""/></div>
+                                <div class="next1" id="next1"><img src="/plugins/pic_tab/index_tab_r.png" width="28" height="51"  alt=""/></div>
+                                <ul>
+                                    <li><a href="javascript:;"><img src="http://nephewcms.com/uploads/zhinengshoubiao/znsb-1.jpg" width="500" height="500" alt=""/></a></li>
+                                    <li><a href="javascript:;"><img src="http://nephewcms.com/uploads/zhinengshoubiao/znsb-2.jpg" width="500" height="500" alt=""/></a></li>
+                                    <li><a href="javascript:;"><img src="images/b3.jpg" width="500" height="500" alt=""/></a></li>
+                                    <li><a href="javascript:;"><img src="images/b4.jpg" width="500" height="500" alt=""/></a></li>
+                                    <li><a href="javascript:;"><img src="images/b5.jpg" width="500" height="500" alt=""/></a></li>
+                                </ul>
                             </div>
-
-                            <div class='slick-slide lg-item-box' data-src="../upload/201605/1463968683.jpg" data-exthumbimage="../include/thumb.php?dir=../upload/201605/1463968683.jpg&x=400&y=400">
-                        	<span>
-                                <img src="../include/thumb.php?dir=../upload/201605/1463968683.jpg&x=400&y=400" class="img-responsive" alt="Apple Watch Sport" />
-                            </span>
+                            <div class="min_pic">
+                                <div class="prev_btn1" id="prev_btn1"><img src="/plugins/pic_tab/feel3.png" width="9" height="18"  alt=""/></div>
+                                <div class="num clearfix" id="ban_num1">
+                                    <ul>
+                                        <li><a href="javascript:;"><img src="http://nephewcms.com/uploads/zhinengshoubiao/znsb-1.jpg" width="78" height="78" alt=""/></a></li>
+                                        <li><a href="javascript:;"><img src="http://nephewcms.com/uploads/zhinengshoubiao/znsb-2.jpg" width="78" height="78" alt=""/></a></li>
+                                        <li><a href="javascript:;"><img src="/plugins/pic_tab/s1.jpg" width="78" height="78" alt=""/></a></li>
+                                        <li><a href="javascript:;"><img src="/plugins/pic_tab/s1.jpg" width="78" height="78" alt=""/></a></li>
+                                        <li><a href="javascript:;"><img src="images/s5.jpg" width="80" height="80" alt=""/></a></li>
+                                    </ul>
+                                </div>
+                                <div class="next_btn1" id="next_btn1"><img src="/plugins/pic_tab/feel4.png" width="9" height="18"  alt=""/></div>
                             </div>
-
-                            <div class='slick-slide lg-item-box' data-src="../upload/201605/1463969986.jpg" data-exthumbimage="../include/thumb.php?dir=../upload/201605/1463969986.jpg&x=60&y=60">
-                        	<span>
-                                <img data-lazy="../include/thumb.php?dir=../upload/201605/1463969986.jpg&x=400&y=400" class="img-responsive" alt="Apple Watch Sport" />
-                            </span>
-                            </div>
-
-                            <div class='slick-slide lg-item-box' data-src="../upload/201605/1463970070.jpg" data-exthumbimage="../include/thumb.php?dir=../upload/201605/1463970070.jpg&x=60&y=60">
-                        	<span>
-                                <img data-lazy="../include/thumb.php?dir=../upload/201605/1463970070.jpg&x=400&y=400" class="img-responsive" alt="Apple Watch Sport" />
-                            </span>
-                            </div>
-
-                            <div class='slick-slide lg-item-box' data-src="../upload/201605/1463970452.jpg" data-exthumbimage="../include/thumb.php?dir=../upload/201605/1463970452.jpg&x=60&y=60">
-                        	<span>
-                                <img data-lazy="../include/thumb.php?dir=../upload/201605/1463970452.jpg&x=400&y=400" class="img-responsive" alt="Apple Watch Sport" />
-                            </span>
-                            </div>
-
-                            <div class='slick-slide lg-item-box' data-src="../upload/201605/1463970224.jpg" data-exthumbimage="../include/thumb.php?dir=../upload/201605/1463970224.jpg&x=60&y=60">
-                        	<span>
-                                <img data-lazy="../include/thumb.php?dir=../upload/201605/1463970224.jpg&x=400&y=400" class="img-responsive" alt="Apple Watch Sport" />
-                            </span>
-                            </div>
-
                         </div>
+                        <div class="mhc"></div>
                     </div>
+                    {{--<div class="col-md-7">--}}
+                        {{--<div class='met-showproduct-list fnGallery text-center slick-dotted' id="met-imgs-carousel">--}}
+                            {{--<button type="button" class="slick-prev slick-arrow" style="display: block;"><i class="icon pe-angle-left vertical-align-middle"></i></button>--}}
+                            {{--<div aria-live="polite" class="slick-list draggable">--}}
+                                {{--<div class="slick-track" role="listbox" style="opacity: 1; width: 3918px; transform: translate3d(-2612px, 0px, 0px);">--}}
+                            {{--@if(!empty($product_info))--}}
+                                {{--@foreach($product_info['img'] as $img)--}}
+                            {{--<div class='slick-slide lg-item-box' data-src="" data-exthumbimage="{{$img}}">--}}
+                            {{--<span>--}}
+                                {{--<img src="{{$img}}" class="img-responsive" alt="{{$product_info['name']}}" />--}}
+                            {{--</span>--}}
+                            {{--</div>--}}
+                                {{--@endforeach--}}
+                            {{--@endif--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+
+                            {{--<button type="button" class="slick-next slick-arrow" style="display: block;"><i class="icon pe-angle-right vertical-align-middle"></i></button>--}}
+                            {{--<ul class="slick-dots" role="tablist" style="display: block;">--}}
+                                {{--<div role="toolbar" style="width: 286px;">--}}
+                                    {{--<li class="" aria-hidden="true" role="presentation" aria-selected="true" aria-controls="navigation00" id="slick-slide00">--}}
+                                        {{--<img src="../include/thumb.php?dir=../upload/201605/1463972218.jpg&amp;x=400&amp;y=400" alt="儿童手表">--}}
+                                    {{--</li>--}}
+                                    {{--<li aria-hidden="true" role="presentation" aria-selected="false" aria-controls="navigation01" id="slick-slide01" class="">--}}
+                                        {{--<img src="../include/thumb.php?dir=../upload/201605/1463972203.jpg&amp;x=400&amp;y=400" alt="儿童手表">--}}
+                                    {{--</li>--}}
+                                    {{--<li aria-hidden="true" role="presentation" aria-selected="false" aria-controls="navigation02" id="slick-slide02" class="">--}}
+                                        {{--<img src="../include/thumb.php?dir=../upload/201605/1463972133.jpg&amp;x=60&amp;y=60" alt="儿童手表">--}}
+                                    {{--</li>--}}
+                                    {{--<li aria-hidden="false" role="presentation" aria-selected="false" aria-controls="navigation03" id="slick-slide03" class="slick-active">--}}
+                                        {{--<img src="../include/thumb.php?dir=../upload/201605/1463971739.jpg&amp;x=60&amp;y=60" alt="儿童手表">--}}
+                                    {{--</li>--}}
+                                {{--</div>--}}
+                            {{--</ul>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <div class="col-md-5 product-intro">
                         <h1>Apple Watch Sport</h1>
 
                         <script>var stockjson = [{"id":"1028","pid":"48","price":"2688","valuelist":"黄色,42毫米","stock":"959","sales":"0","price_str":"2688.00元"},{"id":"1027","pid":"48","price":"2288","valuelist":"黄色,38毫米","stock":"990","sales":"0","price_str":"2288.00元"},{"id":"1026","pid":"48","price":"2688","valuelist":"橙色,42毫米","stock":"799","sales":"0","price_str":"2688.00元"},{"id":"1025","pid":"48","price":"2288","valuelist":"橙色,38毫米","stock":"993","sales":"0","price_str":"2288.00元"},{"id":"1024","pid":"48","price":"2688","valuelist":"宝蓝色,42毫米","stock":"992","sales":"0","price_str":"2688.00元"},{"id":"1023","pid":"48","price":"2288","valuelist":"宝蓝色,38毫米","stock":"990","sales":"0","price_str":"2288.00元"},{"id":"1022","pid":"48","price":"2688","valuelist":"白色,42毫米","stock":"699","sales":"0","price_str":"2688.00元"},{"id":"1021","pid":"48","price":"2288","valuelist":"白色,38毫米","stock":"899","sales":"0","price_str":"2288.00元"},{"id":"1020","pid":"48","price":"2688","valuelist":"黑色,42毫米","stock":"99","sales":"0","price_str":"2688.00元"},{"id":"1019","pid":"48","price":"2288","valuelist":"黑色,38毫米","stock":"999","sales":"0","price_str":"2288.00元"}];</script>
                         <div class="shop-product-intro grey-500">
                             <div class="padding-20 bg-grey-100 price">
-                                <span id="price" class="red-600">2288.00元</span>
+                                <span id="price" class="red-600">test</span>
                             </div>
 
                             <div class="form-group margin-top-15">
@@ -143,10 +157,10 @@
                                 <p class='margin-bottom-0 margin-top-5'>库存 <span id='stock-num' class='hide'>8419</span> 件</p>
 
                             </div>
-                            <div class="form-group margin-top-20 purchase-btn">
-                                <a href="http://show.metinfo.cn/muban/res013/323/shop/cart.php?lang=cn&a=dotocart&action=buynow&pid=48" class="btn btn-lg btn-squared btn-danger margin-right-20 product-buynow">立即购买</a>
-                                <a href="http://show.metinfo.cn/muban/res013/323/shop/cart.php?lang=cn&a=dotocart&pid=48" class="btn btn-lg btn-squared btn-primary product-tocart"><i class="icon fa-cart-plus font-size-20" aria-hidden="true"></i>加入购物车</a>
-                            </div>
+                            {{--<div class="form-group margin-top-20 purchase-btn">--}}
+                                {{--<a href="http://show.metinfo.cn/muban/res013/323/shop/cart.php?lang=cn&a=dotocart&action=buynow&pid=48" class="btn btn-lg btn-squared btn-danger margin-right-20 product-buynow">立即购买</a>--}}
+                                {{--<a href="http://show.metinfo.cn/muban/res013/323/shop/cart.php?lang=cn&a=dotocart&pid=48" class="btn btn-lg btn-squared btn-primary product-tocart"><i class="icon fa-cart-plus font-size-20" aria-hidden="true"></i>加入购物车</a>--}}
+                            {{--</div>--}}
                         </div>
 
                     </div>
@@ -284,4 +298,32 @@
 
 @section('java-script')
 
+    <script type="text/javascript" src="/plugins/pic_tab/pic_tab.js"></script>
+    <script src="{{url('front/product.js')}}"></script>
+    <script type="text/javascript">
+        jq('#demo1').banqh({
+            box:"#demo1",//总框架
+            pic:"#ban_pic1",//大图框架
+            pnum:"#ban_num1",//小图框架
+            prev_btn:"#prev_btn1",//小图左箭头
+            next_btn:"#next_btn1",//小图右箭头
+            pop_prev:"#prev2",//弹出框左箭头
+            pop_next:"#next2",//弹出框右箭头
+            prev:"#prev1",//大图左箭头
+            next:"#next1",//大图右箭头
+//            pop_div:"#demo2",//弹出框框架
+//            pop_pic:"#ban_pic2",//弹出框图片框架
+//            pop_xx:".pop_up_xx",//关闭弹出框按钮
+//            mhc:".mhc",//朦灰层
+            autoplay:true,//是否自动播放
+            interTime:5000,//图片自动切换间隔
+            delayTime:400,//切换一张图片时间
+//            pop_delayTime:400,//弹出框切换一张图片时间
+            order:0,//当前显示的图片（从0开始）
+            picdire:true,//大图滚动方向（true为水平方向滚动）
+            mindire:true,//小图滚动方向（true为水平方向滚动）
+            min_picnum:5,//小图显示数量
+//            pop_up:true//大图是否有弹出框
+        })
+    </script>
 @endsection

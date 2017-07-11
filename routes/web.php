@@ -66,8 +66,21 @@ Route::group(['middleware' => 'auth'], function () {
 
     //页面管理--关于我们
     Route::get('/home/about', 'Pages\AboutController@showAboutPage');
+    //页面管理--关于我们--保存信息--新增或修改
+    Route::post('/home/about', 'Pages\AboutController@saveAboutInfo');
+    //页面管理--关于我们--修改排序顺序
+    Route::put('/home/about', 'Pages\AboutController@sortAboutList');
+    //页面管理--关于我们--删除关于我们页面
+    Route::delete('/home/about', 'Pages\AboutController@deleteAboutInfo');
+
     //页面管理--联系我们
     Route::get('/home/connect', 'Pages\AboutController@showConnectPage');
+    //页面管理--联系我们--保存信息--新增或修改
+    Route::post('/home/connect', 'Pages\AboutController@saveConnectInfo');
+    //页面管理--联系我们--修改排序顺序
+    Route::put('/home/connect', 'Pages\AboutController@sortConnectList');
+    //页面管理--联系我们--删除关于我们页面
+    Route::delete('/home/connect', 'Pages\AboutController@deleteConnectInfo');
 });
 
 

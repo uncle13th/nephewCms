@@ -79,7 +79,7 @@
             <li @if($pageIndex == 1001) class="active" @endif ><a href="/home/index"><i class="fa fa-circle-o"></i>首页管理</a></li>
             <li @if($pageIndex == 1002) class="active" @endif ><a href="/home/product/type"><i class="fa fa-circle-o"></i>产品类型管理</a></li>
             <li @if($pageIndex == 1003) class="active" @endif ><a href="/home/product/list"><i class="fa fa-circle-o"></i>产品列表</a></li>
-            <li @if($pageIndex == 1004) class="active" @endif ><a href="/home/aobut"><i class="fa fa-circle-o"></i>关于我们</a></li>
+            <li @if($pageIndex == 1004) class="active" @endif ><a href="/home/about"><i class="fa fa-circle-o"></i>关于我们</a></li>
             <li @if($pageIndex == 1005) class="active" @endif ><a href="/home/connect"><i class="fa fa-circle-o"></i>联系我们</a></li>
           </ul>
         </li>

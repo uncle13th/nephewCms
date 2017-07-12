@@ -365,7 +365,7 @@
 @endsection
 
 @section('js')
-    <script src="{{asset('/plugins/JQueryUI/jquery-ui.min.js')}}"></script>
+    <script src="{{asset('/plugins/jQueryUI/jquery-ui.min.js')}}"></script>
     <script src="{{asset('/js/home/menu.js')}}"></script>
 
 @endsection
